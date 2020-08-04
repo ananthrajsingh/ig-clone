@@ -1,4 +1,4 @@
-## Ishan's react seed project.
+## Instagram Clone
 
 - Style utility by [Tailwind](https://tailwindcss.com/)
 - In app routing (inspired from Angular's resolver concept) by [Navi](https://frontarm.com/navi/en/)
