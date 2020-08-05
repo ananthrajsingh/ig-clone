@@ -8,3 +8,14 @@
 // ADD GLOBAL IMPORTS HERE
 @import "src/styles/scss/fonts";
 @import "src/styles/scss/layout";
+@import "src/styles/scss/groomet-overwrite";
+
+.brand-gradient-bg {
+  background: -moz-linear-gradient(4deg, #e2336b 0%, #fcac46 100%, #fcac46 100%); /* ff3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%, #e2336b), color-stop(100%, #fcac46), color-stop(100%, #fcac46)); /* safari4+,chrome */
+  background: -webkit-linear-gradient(4deg, #e2336b 0%, #fcac46 100%, #fcac46 100%); /* safari5.1+,chrome10+ */
+  background: -o-linear-gradient(4deg, #e2336b 0%, #fcac46 100%, #fcac46 100%); /* opera 11.10+ */
+  background: -ms-linear-gradient(4deg, #e2336b 0%, #fcac46 100%, #fcac46 100%); /* ie10+ */
+  background: linear-gradient(86deg, #e2336b 0%, #fcac46 100%, #fcac46 100%); /* w3c */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2336b', endColorstr='#fcac46',GradientType=1 ); /* ie6-9 */
+}
