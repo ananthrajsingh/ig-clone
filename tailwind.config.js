@@ -20,18 +20,8 @@ module.exports = {
                 dark: '#282a34',
                 normal: '#3c3f51'
             },
-            gradient: {
-                pink: '#e2336b',
-                yellow: '#fcac46'
-            }
-            // gray: {
-            //     darkest: '#666666',
-            //     darker: '#999999',
-            //     normal: '#dfdfdf',
-            //     light: '#e2e8f0',
-            //     lighter: '#f2f2f2',
-            //     lightest: '#fafafa',
-            // }
+            pink: '#e2336b',
+            yellow: '#fcac46'
         },
         spacing: {
             px: '1px',
