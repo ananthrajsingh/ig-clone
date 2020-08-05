@@ -11,7 +11,7 @@ interface DashboardProps extends GlobalProps {
 
 
 const Dashboard: React.FC<DashboardProps> = (props) => (
-  <div className={`${props?.className} Sidebar`}>
+  <div className={`${props?.className} bg-gray-normal`}>
       Dashboard Component
   </div>
 );

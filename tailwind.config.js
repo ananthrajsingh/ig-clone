@@ -17,13 +17,21 @@ module.exports = {
             primary: '#fbe0dc',
             secondary: '#d0f0e4',
             gray: {
-                darkest: '#666666',
-                darker: '#999999',
-                normal: '#dfdfdf',
-                light: '#e2e8f0',
-                lighter: '#f2f2f2',
-                lightest: '#fafafa',
+                dark: '#282a34',
+                normal: '#3c3f51'
+            },
+            gradient: {
+                pink: '#e2336b',
+                yellow: '#fcac46'
             }
+            // gray: {
+            //     darkest: '#666666',
+            //     darker: '#999999',
+            //     normal: '#dfdfdf',
+            //     light: '#e2e8f0',
+            //     lighter: '#f2f2f2',
+            //     lightest: '#fafafa',
+            // }
         },
         spacing: {
             px: '1px',
@@ -156,6 +164,10 @@ module.exports = {
             mono: [
                 'Menlo'
             ],
+
+            nunito: [
+                'Nunito'
+            ]
         },
         fontSize: {
             xs: '0.75rem',
@@ -258,6 +270,7 @@ module.exports = {
             '6xl': '72rem',
             full: '100%',
             screen: '100vh',
+            '3/10': '30%',
         },
         minHeight: {
             '0': '0',
@@ -266,6 +279,8 @@ module.exports = {
         },
         minWidth: {
             '0': '0',
+            xs: '20rem',
+            md: '28rem',
             full: '100%',
             screen: '100vh',
         },
@@ -330,6 +345,7 @@ module.exports = {
             '9/12': '75%',
             '10/12': '83.333333%',
             '11/12': '91.666667%',
+            '3/10': '30%',
             full: '100%',
             screen: '100vw',
         }),
