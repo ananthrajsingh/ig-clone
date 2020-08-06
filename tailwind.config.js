@@ -261,7 +261,7 @@ module.exports = {
             '6xl': '72rem',
             full: '100%',
             screen: '100vh',
-            '3/10': '30%',
+            '3/10': '30vw',
         },
         minHeight: {
             '0': '0',
