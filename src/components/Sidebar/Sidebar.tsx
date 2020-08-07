@@ -12,12 +12,14 @@ interface SidebarProps extends GlobalProps {
 }
 
 
-
+// TODO Send name and username from props to ProfileInfo
 const Sidebar: React.FC<SidebarProps> = (props) => (
   <div className={`${props?.className} Sidebar bg-gray-dark`}>
-      <img src={logo} alt={'Instagram Logo'} className={'w-8 ml-4 sm:mt-1 sm:ml-2 inline'}/>
-      <img src={logotext} alt={'Instagram Logo Text'} className={'sm:invisible w-32 ml-2 mt-2 inline'}/>
-      <ProfileInfo />
+      <div className={'mt-2'}>
+            <img src={logo} alt={'Instagram Logo'} className={'w-8 ml-4 sm:mt-1 sm:ml-2 inline'}/>
+            <img src={logotext} alt={'Instagram Logo Text'} className={'sm:invisible w-32 ml-2 mt-2 inline'}/>
+      </div>
+      <ProfileInfo className={'mt-8'} displayName={"Ananth Raj Singh"} username={'@ananthrajsingh'}/>
   </div>
 );
 

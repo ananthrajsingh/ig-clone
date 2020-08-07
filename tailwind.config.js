@@ -19,7 +19,8 @@ module.exports = {
             gray: {
                 dark: '#282a34',
                 normal: '#3c3f51',
-                'normal-contrast': '#484b5b'
+                'normal-contrast': '#484b5b',
+                text: '#718096'
             },
             pink: '#e2336b',
             yellow: '#fcac46'
