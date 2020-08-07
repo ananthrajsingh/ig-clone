@@ -7,15 +7,30 @@ import placeholder_dp from '../../images/placeholder-dp.png'
 interface ProfileInfoProps extends GlobalProps {
     displayName: string
     username: string
+    posts: number
+    followers: number
+    following: number
+
 }
 
 const ProfileInfo: React.FC<ProfileInfoProps> = props => {
     // TODO Get avatar from props and replace placeholder
     let displayName = props.displayName
     let username = props.username
+    let posts = props.posts
+    let followers = props.followers
+    let following = props.following
+
+
+    function formatNumber(value: number) {
+        if (value < 0) return 0
+        if (value < 1000) return value
+        if (value >= 1000 && value < 1000000) return (value/1000).toFixed(1) + 'k';
+        return (value/1000000).toFixed(1) + 'm'
+    }
 
     return <div className={`${props?.className} bg-gray-dark align-center`}>
-        <div className={'flex relative h-24 sm:invisible w-full justify-center'}  >
+        <div className={'flex relative h-24 sm:invisible w-full justify-center'}>
             <img src={loop} alt={'ring'}
                  className={'h-full w-auto'}/>
             <div
@@ -31,28 +46,34 @@ const ProfileInfo: React.FC<ProfileInfoProps> = props => {
             </p>
         </div>
 
-        <div>
-            <div>
-
+        {/*Right margin is more than left as it gives better look due to fixed texts*/}
+        <div className={'flex flex-row flex-no-wrap justify-evenly mt-6 mr-8 ml-6'}>
+            <div className={'flex-1 justify-center flex flex-col items-center'}>
+                <p className={'text-base'}>
+                    {formatNumber(posts)}
+                </p>
+                <p className={'text-gray-text mt-1'}>
+                    Posts
+                </p>
             </div>
-            <div>
-
+            <div className={'flex-1 justify-center flex flex-col items-center'}>
+                <p className={'text-base'}>
+                    {formatNumber(followers)}
+                </p>
+                <p className={'text-gray-text mt-1'}>
+                    Followers
+                </p>
             </div>
-            <div>
-
+            <div className={'flex-1 justify-center flex flex-col items-center'}>
+                <p className={'text-base'}>
+                    {formatNumber(following)}
+                </p>
+                <p className={'text-gray-text mt-1'}>
+                    Following
+                </p>
             </div>
         </div>
     </div>
 }
 
 export default ProfileInfo
-
-
-/*
- <div className={'flex relative h-24 sm:h-12 w-full justify-center'} >
-            <img src={loop} alt={'ring'}
-                 className={'h-full w-auto'}/>
-            <img src={placeholder_dp} alt={'avatar'}
-                 className={'absolute rounded-full h-full w-24 p-2 max-w-24 min-w-24 overflow-x-hidden'}/>
-        </div>
- */
