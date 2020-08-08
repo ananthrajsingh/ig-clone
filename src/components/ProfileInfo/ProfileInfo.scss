@@ -1,0 +1,9 @@
+.ProfileInfo{}
+
+.Avatar {
+  background: url("../../images/placeholder-dp.png") 50% 50% no-repeat;
+  background-size:cover;
+  object-fit: cover;
+  overflow: hidden;
+  transform: scale(0.85);
+}
