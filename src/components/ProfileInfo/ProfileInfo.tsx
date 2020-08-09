@@ -17,6 +17,7 @@ interface ProfileInfoProps extends GlobalProps {
 
 
 const ProfileInfo: React.FC<ProfileInfoProps> = props => {
+
     // TODO Get avatar from props and replace placeholder
     const {name, username, postCount, followerCount, followingCount} = props;
 
