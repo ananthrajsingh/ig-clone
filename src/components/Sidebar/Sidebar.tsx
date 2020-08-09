@@ -1,7 +1,12 @@
 import React from 'react';
 import './Sidebar.scss';
 import { GlobalProps } from '../app/App';
+import logo from '../../images/logo.svg'
+import logotext from '../../images/logo-text.svg'
+import feed_normal from '../../images/feed_normal.svg'
+import feed_selected from '../../images/feed_selected.svg'
 import ProfileInfo from "../ProfileInfo/ProfileInfo";
+import NavItem from "../NavItem/NavItem";
 
 
 
@@ -23,6 +28,15 @@ const Sidebar: React.FC<SidebarProps> = (props) => (
           followingCount={67687976}
           postCount={23}
       />
+      <div>
+            <NavItem
+                clickUrl={""}
+                title={""}
+                count={0}
+                selectedIcon={feed_selected}
+                normalIcon={feed_normal}
+                isSelected={true} />
+      </div>
   </div>
 );
 

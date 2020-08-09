@@ -4,8 +4,6 @@ import { GlobalProps } from '../app/App';
 import Avatar, { AvatarSize } from '../Avatar/Avatar';
 import { getFormattedNumber } from '../../utils/format-number';
 
-
-
 interface ProfileInfoProps extends GlobalProps {
     name: string
     username: string
