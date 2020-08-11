@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import './NavItem.scss'
 import { GlobalProps } from '../app/App'
 import highlighter from "../../images/item_selection_highlighter.svg"
+import { Navigation } from '../Sidebar/Sidebar'
 
 
 interface NavItemProps extends GlobalProps {
-    clickUrl: string
+    id: number
+    onClick: (id: Navigation) => void
     title: string
     count: number
     selectedIcon: string
@@ -14,33 +16,40 @@ interface NavItemProps extends GlobalProps {
 }
 const NavItem: React.FC<NavItemProps> = (props: any) => {
 
-    let [isItemSelected, setIsItemSelected] = useState(props.isSelected)
-
-    function toggleSelectedState() {
-        setIsItemSelected(!isItemSelected)
+    function visibleIfSelected(isSelected: boolean) {
+        return isSelected ? 'visible' : 'invisible'
     }
 
-    return <div className={'flex flex-row justify-evenly h-5 ml-4 mt-6'}>
+    function visibleIfPositiveNumber(count: number) {
+        if (count === null || count < 1) return 'hidden'
+        return 'visible'
+    }
+
+    function boldIfSelected(isSelected: boolean) {
+        return isSelected ? 'font-bold' : 'font-normal'
+    }
+
+    return <div
+        className={'flex flex-row justify-evenly h-5 ml-4 mt-6 cursor-pointer'}
+        onClick={() => {props.onClick(props.id)}}
+    >
         <img
             className={'h-5 w-5'}
-            src={isItemSelected? props.selectedIcon : props.normalIcon}
+            src={props.isSelected? props.selectedIcon : props.normalIcon}
             alt={props.title + ' icon'}
         />
         <p
-            className={'text-base align-start flex-grow-3 flex-none ml-4'}
-            style={{ fontWeight: (isItemSelected ? 'bold' : 'normal')}}
+            className={'text-base align-start flex-grow-3 flex-none ml-4 ' + boldIfSelected(props.isSelected)}
         >
             {props.title}
         </p>
         <p
-            className={'text-base text-gray-text flex-initial mr-8'}
-            style={{ display: (props.count === 0 ? 'none' : 'block')}}
+            className={'text-base text-gray-text flex-initial mr-8 ' + visibleIfPositiveNumber(props.count)}
         >
             {props.count}
         </p>
         <img
-            className={''}
-            style={{ visibility: (isItemSelected ? 'visible' : 'hidden') }}
+            className={visibleIfSelected(props.isSelected)}
             src={highlighter}
             alt={'highlighter'}
         />
