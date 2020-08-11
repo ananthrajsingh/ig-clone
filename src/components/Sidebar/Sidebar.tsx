@@ -47,7 +47,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => (
                 count={0}
                 selectedIcon={feed_selected}
                 normalIcon={feed_normal}
-                isSelected={true} />
+                isSelected={false} />
             <NavItem
                 clickUrl={""}
                 title={"Explore"}
@@ -61,25 +61,25 @@ const Sidebar: React.FC<SidebarProps> = (props) => (
                 count={5}
                 selectedIcon={notif_selected}
                 normalIcon={notif_normal}
-                isSelected={false} />
+                isSelected={true} />
             <NavItem
                 clickUrl={""}
                 title={"Direct"}
-                count={0}
+                count={4}
                 selectedIcon={direct_selected}
                 normalIcon={direct_normal}
                 isSelected={false} />
             <NavItem
                 clickUrl={""}
                 title={"IG TV"}
-                count={0}
+                count={1}
                 selectedIcon={tv_selected}
                 normalIcon={tv_normal}
                 isSelected={false} />
             <NavItem
                 clickUrl={""}
                 title={"Statistics"}
-                count={0}
+                count={3}
                 selectedIcon={stats_selected}
                 normalIcon={stats_normal}
                 isSelected={false} />

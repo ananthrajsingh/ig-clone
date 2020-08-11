@@ -20,27 +20,27 @@ const NavItem: React.FC<NavItemProps> = (props: any) => {
         setIsItemSelected(!isItemSelected)
     }
 
-    return <div className={'flex flex-row justify-between h-5 ml-4 mt-6'}>
+    return <div className={'flex flex-row justify-evenly h-5 ml-4 mt-6'}>
         <img
             className={'h-5 w-5'}
             src={isItemSelected? props.selectedIcon : props.normalIcon}
             alt={props.title + ' icon'}
         />
         <p
-            className={'text-base align-start flex-grow-3 ml-4'}
+            className={'text-base align-start flex-grow-3 flex-none ml-4'}
             style={{ fontWeight: (isItemSelected ? 'bold' : 'normal')}}
         >
             {props.title}
         </p>
         <p
-            className={'text-base text-gray-text flex-grow-1'}
+            className={'text-base text-gray-text flex-initial mr-8'}
             style={{ display: (props.count === 0 ? 'none' : 'block')}}
         >
             {props.count}
         </p>
         <img
             className={''}
-            style={{ display: (isItemSelected ? 'block' : 'none') }}
+            style={{ visibility: (isItemSelected ? 'visible' : 'hidden') }}
             src={highlighter}
             alt={'highlighter'}
         />
