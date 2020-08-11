@@ -21,7 +21,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = props => {
 
 
     return <div className={`${props?.className} flex flex-col bg-gray-dark justify-center items-center`}>
-        <Avatar size={AvatarSize.md}></Avatar>
+        <Avatar size={AvatarSize.md}> </Avatar>
         <div className={'flex flex-col w-full h-auto items-center mt-6 '}>
             <p className={'text-xl font-bold block'}>
                 {name}
@@ -32,7 +32,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = props => {
         </div>
 
         {/*Right margin is more than left as it gives better look due to fixed texts*/}
-        <div className={'flex flex-row flex-no-wrap justify-evenly mt-6 mr-8 ml-6'}>
+        <div className={'flex flex-row flex-no-wrap justify-evenly w-full mt-6 mr-8 ml-6'}>
             <div className={'flex-1 justify-center flex flex-col items-center'}>
                 <p className={'text-base'}>
                     {getFormattedNumber(postCount)}
