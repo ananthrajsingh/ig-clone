@@ -22,13 +22,13 @@ import ProfileInfo from "../ProfileInfo/ProfileInfo";
 import NavItem from "../NavItem/NavItem";
 
 export enum Navigation {
-      FEED,
-      EXPLORE,
-      NOTIFICATIONS,
-      DIRECT,
-      IGTV,
-      STATS,
-      SETTINGS
+      FEED = 'Feed',
+      EXPLORE = 'Explore',
+      NOTIFICATIONS = 'Notifications',
+      DIRECT = 'Direct',
+      IGTV = 'IG TV',
+      STATS = 'Statistics',
+      SETTINGS = 'Settings'
 }
 
 interface SidebarProps extends GlobalProps {
@@ -67,7 +67,6 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                   <NavItem
                       id={Navigation.FEED}
                       onClick={onItemClick}
-                      title={"Feed"}
                       count={0}
                       selectedIcon={feed_selected}
                       normalIcon={feed_normal}
@@ -75,7 +74,6 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                   <NavItem
                       id={Navigation.EXPLORE}
                       onClick={onItemClick}
-                      title={"Explore"}
                       count={0}
                       selectedIcon={explore_selected}
                       normalIcon={explore_normal}
@@ -83,7 +81,6 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                   <NavItem
                       id={Navigation.NOTIFICATIONS}
                       onClick={onItemClick}
-                      title={"Notification"}
                       count={5}
                       selectedIcon={notif_selected}
                       normalIcon={notif_normal}
@@ -91,7 +88,6 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                   <NavItem
                       id={Navigation.DIRECT}
                       onClick={onItemClick}
-                      title={"Direct"}
                       count={4}
                       selectedIcon={direct_selected}
                       normalIcon={direct_normal}
@@ -99,7 +95,6 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                   <NavItem
                       id={Navigation.IGTV}
                       onClick={onItemClick}
-                      title={"IG TV"}
                       count={1}
                       selectedIcon={tv_selected}
                       normalIcon={tv_normal}
@@ -107,7 +102,6 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                   <NavItem
                       id={Navigation.STATS}
                       onClick={onItemClick}
-                      title={"Statistics"}
                       count={3}
                       selectedIcon={stats_selected}
                       normalIcon={stats_normal}
@@ -115,7 +109,6 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                   <NavItem
                       id={Navigation.SETTINGS}
                       onClick={onItemClick}
-                      title={"Settings"}
                       count={0}
                       selectedIcon={settings_selected}
                       normalIcon={settings_normal}

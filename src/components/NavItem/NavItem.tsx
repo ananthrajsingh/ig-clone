@@ -6,9 +6,8 @@ import { Navigation } from '../Sidebar/Sidebar'
 
 
 interface NavItemProps extends GlobalProps {
-    id: number
+    id: Navigation
     onClick: (id: Navigation) => void
-    title: string
     count: number
     selectedIcon: string
     normalIcon: string
@@ -41,7 +40,7 @@ const NavItem: React.FC<NavItemProps> = (props: any) => {
         <p
             className={'text-base align-start flex-grow-3 flex-none ml-4 ' + boldIfSelected(props.isSelected)}
         >
-            {props.title}
+            {props.id}
         </p>
         <p
             className={'text-base text-gray-text flex-initial mr-8 ' + visibleIfPositiveNumber(props.count)}
