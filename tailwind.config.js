@@ -23,6 +23,7 @@ module.exports = {
                 text: '#718096'
             },
             pink: '#e2336b',
+            pink_yellow: '#F77E56',
             yellow: '#fcac46'
         },
         spacing: {
