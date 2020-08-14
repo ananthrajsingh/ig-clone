@@ -10,3 +10,8 @@ export function getFormattedNumber(value: number): string | number {
     }
     return (value / 1000000).toFixed(1) + 'm';
 }
+
+
+export function isNaturalNumber(item: any): boolean {
+    return !isNaN(item) && item > 0;
+}

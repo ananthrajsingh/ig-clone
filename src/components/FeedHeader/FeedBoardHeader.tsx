@@ -1,18 +1,17 @@
 import React from 'react';
-import './DashboardHeader.scss';
 import { TextInput } from 'grommet';
 import { AddCircle, Notification, Search, Send } from 'grommet-icons';
 import { GlobalProps } from '../app/App';
 
 
 
-interface DashboardHeaderProps extends GlobalProps {
+interface FeedBoardHeaderProps extends GlobalProps {
 
 }
 
 
 
-const DashboardHeader: React.FC<DashboardHeaderProps> = (props: DashboardHeaderProps) => (
+const FeedBoardHeader: React.FC<FeedBoardHeaderProps> = (props: FeedBoardHeaderProps) => (
   <div className={`${props?.className} flex flex-row justify-between items-center`}>
       <div className={'max-w-3/10 min-w-xxs'}>
           <TextInput
@@ -32,4 +31,4 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = (props: DashboardHeaderP
   </div>
 );
 
-export default DashboardHeader;
+export default FeedBoardHeader;

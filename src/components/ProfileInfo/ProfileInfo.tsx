@@ -2,7 +2,7 @@ import React from 'react';
 import './ProfileInfo.scss';
 import { GlobalProps } from '../app/App';
 import Avatar, { AvatarSize } from '../Avatar/Avatar';
-import { getFormattedNumber } from '../../utils/format-number';
+import { getFormattedNumber } from '../../utils/number-helpers';
 
 interface ProfileInfoProps extends GlobalProps {
     name: string

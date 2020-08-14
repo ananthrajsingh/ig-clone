@@ -1,24 +1,25 @@
 import React from 'react';
 import './Dashboard.scss';
-import { GlobalProps } from '../app/App';
-import DashboardHeader from '../DashboardHeader/DashboardHeader';
-import StoryList from '../StoryList/StoryList';
+import { lazy, mount, redirect, route } from 'navi';
+import { Router, View } from 'react-navi'
+import FeedBoard from '../FeedBoard/FeedBoard';
+import Explore from '../Explore/Explore';
 
 
-
-interface DashboardProps extends GlobalProps {
-
-}
-
-
-
-const Dashboard: React.FC<DashboardProps> = (props) => (
-    <div
-      className={'bg-gray-normal h-full w-full pt-12 px-16 rounded-l-lg flex flex-col justify-start items-center space-y-10 children:w-full overflow-hidden'}>
-        <DashboardHeader/>
-        <StoryList/>
-    </div>
-  )
-;
+const routes =
+  mount({
+      '/': redirect('/feed'),
+      '/feed': route({
+          view: <FeedBoard/>,
+      }),
+      '/explore': route({
+          view: <Explore/>,
+      }),
+  })
+const Dashboard: React.FC = () => (
+  <Router routes={routes}>
+          <View />
+  </Router>
+);
 
 export default Dashboard;

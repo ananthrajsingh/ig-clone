@@ -1,9 +1,10 @@
 import React from 'react';
 import './App.scss';
 import Sidebar from '../Sidebar/Sidebar';
-import Dashboard from '../Dashboard/Dashboard';
+import FeedBoard from '../FeedBoard/FeedBoard';
 import { Grommet } from 'grommet';
 import { deepFreeze } from 'grommet/utils';
+import Dashboard from '../Dashboard/Dashboard';
 
 
 
@@ -44,7 +45,7 @@ function App() {
           <div
             className="box-border w-screen h-screen flex flex-row justify-start items-center text-white bg-gray-dark">
               <Sidebar className={'h-full max-w-3/10 w-3/10 min-w-xs'}></Sidebar>
-              <Dashboard className={'w-full h-full'}></Dashboard>
+              <Dashboard />
           </div>
       </Grommet>
     );
