@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import './NavItem.scss'
 import { GlobalProps } from '../app/App'
 import highlighter from "../../images/item_selection_highlighter.svg"
-import { Navigation } from '../Sidebar/Sidebar'
+import { NavigationType } from '../Sidebar/Sidebar'
 
 
 interface NavItemProps extends GlobalProps {
-    id: Navigation
-    onClick: (id: Navigation) => void
+    id: NavigationType
+    onClick: (id: NavigationType) => void
     count: number
     selectedIcon: string
     normalIcon: string

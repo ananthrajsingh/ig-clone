@@ -21,7 +21,7 @@ import settings_selected from '../../images/settings_selected.svg'
 import ProfileInfo from "../ProfileInfo/ProfileInfo";
 import NavItem from "../NavItem/NavItem";
 
-export enum Navigation {
+export enum NavigationType {
       FEED = 'Feed',
       EXPLORE = 'Explore',
       NOTIFICATIONS = 'Notifications',
@@ -38,13 +38,13 @@ interface SidebarProps extends GlobalProps {
 
 const Sidebar: React.FC<SidebarProps> = (props) => {
 
-      let [selectedItem, setSelectedItem] = useState(Navigation.FEED)
+      let [selectedItem, setSelectedItem] = useState(NavigationType.FEED)
 
-      function onItemClick(id: Navigation) {
+      function onItemClick(id: NavigationType) {
             setSelectedItem(id)
       }
 
-      function getIsSelected(id: Navigation) {
+      function isSelected(id: NavigationType) {
             return id === selectedItem
       }
 
@@ -65,54 +65,54 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
             />
             <div className={'mt-8'}>
                   <NavItem
-                      id={Navigation.FEED}
+                      id={NavigationType.FEED}
                       onClick={onItemClick}
                       count={0}
                       selectedIcon={feed_selected}
                       normalIcon={feed_normal}
-                      isSelected={getIsSelected(Navigation.FEED)}/>
+                      isSelected={isSelected(NavigationType.FEED)}/>
                   <NavItem
-                      id={Navigation.EXPLORE}
+                      id={NavigationType.EXPLORE}
                       onClick={onItemClick}
                       count={0}
                       selectedIcon={explore_selected}
                       normalIcon={explore_normal}
-                      isSelected={getIsSelected(Navigation.EXPLORE)}/>
+                      isSelected={isSelected(NavigationType.EXPLORE)}/>
                   <NavItem
-                      id={Navigation.NOTIFICATIONS}
+                      id={NavigationType.NOTIFICATIONS}
                       onClick={onItemClick}
                       count={5}
                       selectedIcon={notif_selected}
                       normalIcon={notif_normal}
-                      isSelected={getIsSelected(Navigation.NOTIFICATIONS)}/>
+                      isSelected={isSelected(NavigationType.NOTIFICATIONS)}/>
                   <NavItem
-                      id={Navigation.DIRECT}
+                      id={NavigationType.DIRECT}
                       onClick={onItemClick}
                       count={4}
                       selectedIcon={direct_selected}
                       normalIcon={direct_normal}
-                      isSelected={getIsSelected(Navigation.DIRECT)}/>
+                      isSelected={isSelected(NavigationType.DIRECT)}/>
                   <NavItem
-                      id={Navigation.IGTV}
+                      id={NavigationType.IGTV}
                       onClick={onItemClick}
                       count={1}
                       selectedIcon={tv_selected}
                       normalIcon={tv_normal}
-                      isSelected={getIsSelected(Navigation.IGTV)}/>
+                      isSelected={isSelected(NavigationType.IGTV)}/>
                   <NavItem
-                      id={Navigation.STATS}
+                      id={NavigationType.STATS}
                       onClick={onItemClick}
                       count={3}
                       selectedIcon={stats_selected}
                       normalIcon={stats_normal}
-                      isSelected={getIsSelected(Navigation.STATS)}/>
+                      isSelected={isSelected(NavigationType.STATS)}/>
                   <NavItem
-                      id={Navigation.SETTINGS}
+                      id={NavigationType.SETTINGS}
                       onClick={onItemClick}
                       count={0}
                       selectedIcon={settings_selected}
                       normalIcon={settings_normal}
-                      isSelected={getIsSelected(Navigation.SETTINGS)}/>
+                      isSelected={isSelected(NavigationType.SETTINGS)}/>
             </div>
       </div>
 }
