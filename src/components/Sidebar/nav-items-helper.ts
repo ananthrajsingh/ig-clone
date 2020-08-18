@@ -50,7 +50,6 @@ export function getNavItems(): NavigationItem[] {
     ]);
 
     // TODO add like this for all the items.
-    console.log('returning', itemList);
     return itemList;
 
 }

@@ -1,25 +1,14 @@
-import React from 'react';
-import './Dashboard.scss';
-import { lazy, mount, redirect, route } from 'navi';
-import { Router, View } from 'react-navi'
-import FeedBoard from '../FeedBoard/FeedBoard';
-import Explore from '../Explore/Explore';
+import React from "react";
+import "./Dashboard.scss";
+import Sidebar from "../Sidebar/Sidebar";
 
 
-const routes =
-  mount({
-      '/': redirect('/feed'),
-      '/feed': route({
-          view: <FeedBoard/>,
-      }),
-      '/explore': route({
-          view: <Explore/>,
-      }),
-  })
-const Dashboard: React.FC = () => (
-  <Router routes={routes}>
-          <View />
-  </Router>
-);
+const Dashboard: React.FC = (props) => {
+    return <div
+      className="box-border w-screen h-screen flex flex-row justify-start items-center text-white bg-gray-dark">
+        <Sidebar className={"h-full max-w-3/10 w-3/10 min-w-xs"}></Sidebar>
+        {props.children || null}
+    </div>;
+};
 
 export default Dashboard;

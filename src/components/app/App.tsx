@@ -1,10 +1,9 @@
-import React from 'react';
-import './App.scss';
-import Sidebar from '../Sidebar/Sidebar';
-import FeedBoard from '../FeedBoard/FeedBoard';
-import { Grommet } from 'grommet';
-import { deepFreeze } from 'grommet/utils';
-import Dashboard from '../Dashboard/Dashboard';
+import React, { Suspense } from "react";
+import "./App.scss";
+import { Grommet } from "grommet";
+import { deepFreeze } from "grommet/utils";
+import routes from "../../routes/root.route";
+import { Router, View } from "react-navi";
 
 
 
@@ -16,23 +15,23 @@ export interface GlobalProps {
 
 export const customTheme = deepFreeze(
   {
-      'global': {
-          'colors': {
-              'brand': '#e2336b',
-              'focus': 'none',
-              'selected': '#e2336b',
-              'accent-1': '#e2336b',
-              'accent-2': '#fcac46'
+      "global": {
+          "colors": {
+              "brand": "#e2336b",
+              "focus": "none",
+              "selected": "#e2336b",
+              "accent-1": "#e2336b",
+              "accent-2": "#fcac46"
           },
           font: {
-              family: 'Nunito',
-              size: '12px',
-              height: '20px',
+              family: "Nunito",
+              size: "12px",
+              height: "20px",
           },
       },
-      'formField': {
-          'border': {
-              'color': 'none'
+      "formField": {
+          "border": {
+              "color": "none"
           }
       }
   }
@@ -41,13 +40,13 @@ export const customTheme = deepFreeze(
 
 function App() {
     return (
-      <Grommet theme={customTheme}>
-          <div
-            className="box-border w-screen h-screen flex flex-row justify-start items-center text-white bg-gray-dark">
-              <Sidebar className={'h-full max-w-3/10 w-3/10 min-w-xs'}></Sidebar>
-              <Dashboard />
-          </div>
-      </Grommet>
+          <Grommet theme={customTheme}>
+              <Router routes={routes}>
+                  <Suspense fallback={null}>
+                      <View />
+                  </Suspense>
+              </Router>
+          </Grommet>
     );
 }
 
