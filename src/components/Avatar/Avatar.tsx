@@ -1,7 +1,8 @@
 import React from 'react';
 import './Avatar.scss';
-import { GlobalProps } from '../app/App';
-
+import {GlobalProps} from '../app/App';
+import {If} from "react-extras";
+import {StoryItem} from "../StoryList/story-helper";
 
 
 export enum AvatarSize {
@@ -9,35 +10,47 @@ export enum AvatarSize {
     sm
 }
 
+// export interface AvatarItem {
+//     avatarUrl?: string
+//     showRing?: boolean
+//     animateRing?: number
+//     addMode?: number
+//     size?: AvatarSize
+// }
+
 
 // TODO they won't be optional
 interface AvatarProps extends GlobalProps {
     avatarUrl?: string
-    showRing?: boolean
     animateRing?: number
     addMode?: number
     size?: AvatarSize
+    clickable?: boolean
+    stories?: StoryItem[]
 }
 
 
-
 const Avatar: React.FC<AvatarProps> = (props: AvatarProps) => (
-  <div className={'flex relative sm:invisible justify-center clear-both' + ' ' + getClassBySize(props.size)}>
-      <img src={'/assets/images/gradient-loop.svg'} alt={'ring'}
-           className={'h-full w-auto'}/>
-      <div
-        className={'Avatar absolute rounded-full p-2'+ ' ' + getClassBySize(props.size)}
-        style={{background: 'url("/assets/images/placeholder-dp.png") 50% 50% no-repeat'}}>
-      </div>
-  </div>
+    <div className={'flex relative sm:invisible justify-center clear-both' + ' ' + getClassBySize(props.size)}>
+
+        <If condition={props.stories ? props.stories?.length > 0 : false}>
+            <img src={'/assets/images/gradient-loop.svg'} alt={'ring'}
+                 className={'h-full w-auto'}/>
+        </If>
+        <div
+            className={'Avatar absolute rounded-full p-2' + ' ' + getClassBySize(props.size)}
+            style={{background: 'url("/assets/images/placeholder-dp.png") 50% 50% no-repeat'}}>
+        </div>
+
+
+    </div>
 );
 
 
 function getClassBySize(size: AvatarSize | undefined): string {
     if (!size || size === AvatarSize.md) {
         return 'h-24 w-24 min-w-24 min-h-24';
-    }
-    else if (size === AvatarSize.sm) {
+    } else if (size === AvatarSize.sm) {
         return 'h-20 w-20 min-w-20 min-h-20';
     }
     return 'h-24 w-24';
