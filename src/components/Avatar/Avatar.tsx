@@ -3,6 +3,7 @@ import './Avatar.scss';
 import {GlobalProps} from '../app/App';
 import {If} from "react-extras";
 import {StoryItem} from "../StoryList/story-helper";
+import {User} from "../../model/User";
 
 
 export enum AvatarSize {
@@ -21,19 +22,23 @@ export enum AvatarSize {
 
 // TODO they won't be optional
 interface AvatarProps extends GlobalProps {
+    user: User
     avatarUrl?: string
+    showRing: boolean
     animateRing?: number
     addMode?: number
     size?: AvatarSize
-    clickable?: boolean
-    stories?: StoryItem[]
+    onClick: (user: User) => void
 }
 
+// TODO 3 Implement the method in StoryList to show the story
 
 const Avatar: React.FC<AvatarProps> = (props: AvatarProps) => (
-    <div className={'flex relative sm:invisible justify-center clear-both' + ' ' + getClassBySize(props.size)}>
-
-        <If condition={props.stories ? props.stories?.length > 0 : false}>
+    <div
+        className={'flex relative sm:invisible justify-center clear-both' + ' ' + getClassBySize(props.size)}
+        onClick={() => props.onClick(props.user)}
+    >
+        <If condition={props.showRing ? props.showRing : false}>
             <img src={'/assets/images/gradient-loop.svg'} alt={'ring'}
                  className={'h-full w-auto'}/>
         </If>
@@ -41,8 +46,6 @@ const Avatar: React.FC<AvatarProps> = (props: AvatarProps) => (
             className={'Avatar absolute rounded-full p-2' + ' ' + getClassBySize(props.size)}
             style={{background: 'url("/assets/images/placeholder-dp.png") 50% 50% no-repeat'}}>
         </div>
-
-
     </div>
 );
 
