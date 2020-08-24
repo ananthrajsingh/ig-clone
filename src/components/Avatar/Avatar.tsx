@@ -28,15 +28,17 @@ interface AvatarProps extends GlobalProps {
     animateRing?: number
     addMode?: number
     size?: AvatarSize
-    onClick: (user: User) => void
+    onClick?: (user: User) => void
 }
-
-// TODO 3 Implement the method in StoryList to show the story
 
 const Avatar: React.FC<AvatarProps> = (props: AvatarProps) => (
     <div
         className={'flex relative sm:invisible justify-center clear-both' + ' ' + getClassBySize(props.size)}
-        onClick={() => props.onClick(props.user)}
+        onClick={() => {
+            if (props.onClick)
+                props.onClick(props.user)
+        }
+        }
     >
         <If condition={props.showRing ? props.showRing : false}>
             <img src={'/assets/images/gradient-loop.svg'} alt={'ring'}
