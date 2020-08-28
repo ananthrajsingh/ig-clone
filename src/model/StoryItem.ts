@@ -1,10 +1,4 @@
 import placeholder from '../../images/placeholder_2.png'
-import {AvatarProps} from "grommet";
-
-export enum MediaType {
-    IMAGE,
-    VIDEO
-}
 
 export interface StoryItem {
     url: string
@@ -13,6 +7,11 @@ export interface StoryItem {
     timestamp: number
 }
 
-export function getDummyStoryItem() {
+export enum MediaType {
+    IMAGE,
+    VIDEO
+}
+
+export function getDummyStoryItemArray() {
     return [{url: placeholder, type: MediaType.IMAGE, seen: false, timestamp: Date.now()}]
 }

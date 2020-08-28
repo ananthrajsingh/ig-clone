@@ -2,7 +2,6 @@ import React from 'react';
 import './Avatar.scss';
 import {GlobalProps} from '../app/App';
 import {If} from "react-extras";
-import {StoryItem} from "../StoryList/story-helper";
 import {User} from "../../model/User";
 
 

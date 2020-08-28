@@ -3,7 +3,6 @@ import './StoryList.scss';
 import { CirclePlay } from 'grommet-icons';
 import { For } from 'react-extras';
 import Avatar, { AvatarSize } from '../Avatar/Avatar';
-import {getDummyStoryItem} from "./story-helper";
 import {getDummyUser, User} from "../../model/User";
 
 const StoryList: React.FC = () => {
