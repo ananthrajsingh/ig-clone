@@ -7,10 +7,11 @@ import {getDummyUser, User} from "../../model/User";
 import dummyStoryImage from "../../images/placeholder_2.png"
 import {Layer} from "grommet/es6";
 import {getDummyStories} from "../Story/story-helper";
+import {getDummyStoryItemArray, StoryItem} from "../../model/StoryItem";
 
 const StoryList: React.FC = () => {
 
-    let [story, setStory] = useState<string | null>(null)
+    let [story, setStory] = useState<StoryItem | null>(null)
     // let [storyCount, setStoryCount] = useState<number>(0)
     let storyCount = 0
 
@@ -24,13 +25,13 @@ const StoryList: React.FC = () => {
      */
     function fetchStories(user: User) {
         // TODO Fetch real stories from backend
-        let stories = getDummyStories(user)
+        let stories = getDummyStoryItemArray(user)
         // setStoryCount(stories.length)
         storyCount = stories.length
         showStories(stories)
     }
 
-    function showStories(stories: string[]) {
+    function showStories(stories: StoryItem[]) {
         if (storyCount === 0) {
             setStory(null)
             return
@@ -65,7 +66,7 @@ const StoryList: React.FC = () => {
             >
                 <img
                     className={'h-90 m-auto mt-12'}
-                    src={story ? story : dummyStoryImage}
+                    src={story ? story.url : dummyStoryImage}
                     alt={"Dummy Story"}/>
                 {/*<Button label="close" onClick={() => setStory(null)} />*/}
             </Layer>
