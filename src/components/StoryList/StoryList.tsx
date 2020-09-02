@@ -1,21 +1,50 @@
 import React, {useState} from 'react';
 import './StoryList.scss';
-import { CirclePlay } from 'grommet-icons';
+import {CirclePlay} from 'grommet-icons';
 import {For, If} from 'react-extras';
-import Avatar, { AvatarSize } from '../Avatar/Avatar';
+import Avatar, {AvatarSize} from '../Avatar/Avatar';
 import {getDummyUser, User} from "../../model/User";
+import dummyStoryImage from "../../images/placeholder_2.png"
+import {Layer} from "grommet/es6";
+import {getDummyStories} from "../Story/story-helper";
 
 const StoryList: React.FC = () => {
 
-    let [showStory, setShowStory] = useState<User | null>(null)
+    let [story, setStory] = useState<string | null>(null)
+    // let [storyCount, setStoryCount] = useState<number>(0)
+    let storyCount = 0
 
     function onAvatarClick(user: User) {
-        console.log(user.firstName + " clicked")
-        setShowStory(user)
+        fetchStories(user)
+    }
+
+    /**
+     * Gets all the stories associated from the backend and initiates the display of stories.
+     * @param user The user for whom the stories are to be fetched
+     */
+    function fetchStories(user: User) {
+        // TODO Fetch real stories from backend
+        let stories = getDummyStories(user)
+        // setStoryCount(stories.length)
+        storyCount = stories.length
+        showStories(stories)
+    }
+
+    function showStories(stories: string[]) {
+        if (storyCount === 0) {
+            setStory(null)
+            return
+        }
+        setStory(stories[stories.length - storyCount])
+        // let newCount = storyCount - 1
+        // console.log("newCount: " + newCount)
+        // setStoryCount(1) // for debugging
+        storyCount--
+        console.log("storyCount: " + storyCount)
         setTimeout(
             function () {
-                setShowStory(null)
-            }, 2000
+                showStories(stories)
+            }, 3000
         )
     }
 
@@ -28,10 +57,24 @@ const StoryList: React.FC = () => {
                 <p className={'text-base'}>Watch all</p>
             </div>
         </div>
-        <If condition={showStory !== null}>
-            <div className={'w-full h-full inset-0 bg-black absolute z-50 bg-opacity-90'}>
-
-            </div>
+        <If condition={story !== null}>
+            <Layer
+                className={'w-full h-full bg-black absolute z-50 bg-opacity-90'}
+                onEsc={() => setStory(null)}
+                onClickOutside={() => setStory(null)}
+            >
+                <img
+                    className={'h-90 m-auto mt-12'}
+                    src={story ? story : dummyStoryImage}
+                    alt={"Dummy Story"}/>
+                {/*<Button label="close" onClick={() => setStory(null)} />*/}
+            </Layer>
+            {/*<div className={'w-full h-full inset-0 bg-black absolute z-50 bg-opacity-90'}>*/}
+            {/*    <img*/}
+            {/*        className={'h-90 m-auto mt-12'}*/}
+            {/*        src={dummyStoryImage}*/}
+            {/*        alt={"Dummy Story"}/>*/}
+            {/*</div>*/}
         </If>
 
         {/*added mt-8 to compensate for removal of space-y-8 from root*/}
@@ -39,11 +82,11 @@ const StoryList: React.FC = () => {
             className={'flex flex-row justify-start items-center space-x-4 mt-8 max-w-full overflow-x-auto overflow-y-hidden'}>
             <For of={Array.from(Array(25).keys())} render={(item, index) =>
                 <Avatar
-                        key={index}
-                        size={AvatarSize.sm}
-                        onClick={onAvatarClick}
-                        user={getDummyUser()}
-                        showRing={true}
+                    key={index}
+                    size={AvatarSize.sm}
+                    onClick={onAvatarClick}
+                    user={getDummyUser()}
+                    showRing={true}
                 />
             }/>
         </div>
