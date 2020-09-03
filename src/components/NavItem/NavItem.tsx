@@ -1,10 +1,9 @@
 import React from 'react';
 import './NavItem.scss';
 import { GlobalProps } from '../app/App';
-import highlighter from '../../images/item_selection_highlighter.svg';
-import { NavigationItem } from '../Sidebar/nav-items-helper';
 import { isNaturalNumber } from '../../utils/number-helpers';
 import { If } from 'react-extras';
+import { NavigationItem } from "../../models/ui/navigation-item.model";
 
 
 
@@ -51,7 +50,7 @@ const NavItem: React.FC<NavItemProps> = (props: NavItemProps) => {
         </If>
         <img
           className={visibleIfSelected(props.isSelected)}
-          src={highlighter}
+          src={'assets/images/icons/item_selection_highlighter.svg'}
           alt={'highlighter'}
         />
     </div>;

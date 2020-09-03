@@ -3,7 +3,7 @@ import './ProfileInfo.scss';
 import { GlobalProps } from '../app/App';
 import Avatar, { AvatarSize } from '../Avatar/Avatar';
 import { getFormattedNumber } from '../../utils/number-helpers';
-import {getDummyUser} from "../../model/User";
+import { getDummyUser } from "../../mock-generators/user.generator";
 
 interface ProfileInfoProps extends GlobalProps {
     name: string

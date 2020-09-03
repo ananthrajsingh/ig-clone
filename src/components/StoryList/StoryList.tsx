@@ -3,19 +3,19 @@ import './StoryList.scss';
 import {CirclePlay} from 'grommet-icons';
 import {For, If} from 'react-extras';
 import Avatar, {AvatarSize} from '../Avatar/Avatar';
-import {getDummyUser, User} from "../../model/User";
-import dummyStoryImage from "../../images/placeholder_2.png"
 import {Layer} from "grommet/es6";
-import {getDummyStories} from "../Story/story-helper";
-import {getDummyStoryItemArray, StoryItem} from "../../model/StoryItem";
+import { StoryItemModel } from "../../models/ui/story-item.model";
+import { UserModel } from "../../models/user.model";
+import { getDummyStoryItemArray } from "../../mock-generators/story-item.generator";
+import { getDummyUser } from "../../mock-generators/user.generator";
 
 const StoryList: React.FC = () => {
 
-    let [story, setStory] = useState<StoryItem | null>(null)
+    let [story, setStory] = useState<StoryItemModel | null>(null)
     // let [storyCount, setStoryCount] = useState<number>(0)
     let storyCount = 0
 
-    function onAvatarClick(user: User) {
+    function onAvatarClick(user: UserModel) {
         fetchStories(user)
     }
 
@@ -23,7 +23,7 @@ const StoryList: React.FC = () => {
      * Gets all the stories associated from the backend and initiates the display of stories.
      * @param user The user for whom the stories are to be fetched
      */
-    function fetchStories(user: User) {
+    function fetchStories(user: UserModel) {
         // TODO Fetch real stories from backend
         let stories = getDummyStoryItemArray(user)
         // setStoryCount(stories.length)
@@ -31,7 +31,7 @@ const StoryList: React.FC = () => {
         showStories(stories)
     }
 
-    function showStories(stories: StoryItem[]) {
+    function showStories(stories: StoryItemModel[]) {
         if (storyCount === 0) {
             setStory(null)
             return
@@ -66,19 +66,10 @@ const StoryList: React.FC = () => {
             >
                 <img
                     className={'h-90 m-auto mt-12'}
-                    src={story ? story.url : dummyStoryImage}
+                    src={story ? story.url : 'assets/images/others/placeholder_2.png'}
                     alt={"Dummy Story"}/>
-                {/*<Button label="close" onClick={() => setStory(null)} />*/}
             </Layer>
-            {/*<div className={'w-full h-full inset-0 bg-black absolute z-50 bg-opacity-90'}>*/}
-            {/*    <img*/}
-            {/*        className={'h-90 m-auto mt-12'}*/}
-            {/*        src={dummyStoryImage}*/}
-            {/*        alt={"Dummy Story"}/>*/}
-            {/*</div>*/}
         </If>
-
-        {/*added mt-8 to compensate for removal of space-y-8 from root*/}
         <div
             className={'flex flex-row justify-start items-center space-x-4 mt-8 max-w-full overflow-x-auto overflow-y-hidden'}>
             <For of={Array.from(Array(25).keys())} render={(item, index) =>

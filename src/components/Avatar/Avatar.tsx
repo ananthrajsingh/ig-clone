@@ -2,32 +2,22 @@ import React from 'react';
 import './Avatar.scss';
 import {GlobalProps} from '../app/App';
 import {If} from "react-extras";
-import {User} from "../../model/User";
+import { UserModel } from "../../models/user.model";
 
 
 export enum AvatarSize {
     md = 1,
     sm
 }
-
-// export interface AvatarItem {
-//     avatarUrl?: string
-//     showRing?: boolean
-//     animateRing?: number
-//     addMode?: number
-//     size?: AvatarSize
-// }
-
-
 // TODO they won't be optional
 interface AvatarProps extends GlobalProps {
-    user: User
+    user: UserModel
     avatarUrl?: string
     showRing: boolean
     animateRing?: number
     addMode?: number
     size?: AvatarSize
-    onClick?: (user: User) => void
+    onClick?: (user: UserModel) => void
 }
 
 const Avatar: React.FC<AvatarProps> = (props: AvatarProps) => (
@@ -40,12 +30,12 @@ const Avatar: React.FC<AvatarProps> = (props: AvatarProps) => (
         }
     >
         <If condition={props.showRing ? props.showRing : false}>
-            <img src={'/assets/images/gradient-loop.svg'} alt={'ring'}
+            <img src={'/assets/images/others/gradient-loop.svg'} alt={'ring'}
                  className={'h-full w-auto'}/>
         </If>
         <div
             className={'Avatar absolute rounded-full p-2' + ' ' + getClassBySize(props.size)}
-            style={{background: 'url("/assets/images/placeholder-dp.png") 50% 50% no-repeat'}}>
+            style={{background: 'url("assets/images/others/placeholder-dp.png") 50% 50% no-repeat'}}>
         </div>
     </div>
 );

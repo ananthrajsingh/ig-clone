@@ -1,0 +1,9 @@
+.feed-item-wrapper {
+  margin-bottom: 30px;
+  overflow: hidden;
+  border-radius: 15px;
+
+  & .feed-image {
+    border-radius: 15px;
+  }
+}

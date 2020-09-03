@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import "./Sidebar.scss";
 import { GlobalProps } from "../app/App";
 import ProfileInfo from "../ProfileInfo/ProfileInfo";
-import { getNavItems, NavigationItem, NavigationItemType } from "./nav-items-helper";
 import { For } from "react-extras";
 import NavItem from "../NavItem/NavItem";
 import { useNavigation } from "react-navi";
+import { getNavItems } from "../../mock-generators/nav-item.generator";
+import { NavigationItem, NavigationItemType } from "../../models/ui/navigation-item.model";
 
 
 
@@ -38,9 +39,9 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
 
     return <div className={`${props?.className} Sidebar bg-gray-dark`}>
         <div className={"mt-2"}>
-            <img src={"/assets/images/logo.svg"} alt={"Instagram Logo"}
+            <img src={"/assets/images/logos/logo.svg"} alt={"Instagram Logo"}
                  className={"w-8 ml-4 sm:mt-1 sm:ml-2 inline"}/>
-            <img src={"/assets/images/logo-text.svg"} alt={"Instagram Logo Text"}
+            <img src={"/assets/images/logos/logo-text.svg"} alt={"Instagram Logo Text"}
                  className={"sm:invisible w-32 ml-2 mt-2 inline"}/>
         </div>
         <ProfileInfo
