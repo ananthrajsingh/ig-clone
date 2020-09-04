@@ -4,16 +4,18 @@ import {CirclePlay} from 'grommet-icons';
 import {For, If} from 'react-extras';
 import Avatar, {AvatarSize} from '../Avatar/Avatar';
 import {Layer} from "grommet/es6";
-import { StoryItemModel } from "../../models/ui/story-item.model";
-import { UserModel } from "../../models/user.model";
-import { getDummyStoryItemArray } from "../../mock-generators/story-item.generator";
-import { getDummyUser } from "../../mock-generators/user.generator";
+import {StoryItemModel} from "../../models/ui/story-item.model";
+import {UserModel} from "../../models/user.model";
+import {getDummyStoryItemArray} from "../../mock-generators/story-item.generator";
+import {getDummyUser} from "../../mock-generators/user.generator";
 
 const StoryList: React.FC = () => {
 
     let [story, setStory] = useState<StoryItemModel | null>(null)
     // let [storyCount, setStoryCount] = useState<number>(0)
     let storyCount = 0
+    let stories = getDummyStoryItemArray(getDummyUser())
+    let totalStoryCount = 0
 
     function onAvatarClick(user: UserModel) {
         fetchStories(user)
@@ -25,9 +27,10 @@ const StoryList: React.FC = () => {
      */
     function fetchStories(user: UserModel) {
         // TODO Fetch real stories from backend
-        let stories = getDummyStoryItemArray(user)
+        stories = getDummyStoryItemArray(user)
         // setStoryCount(stories.length)
-        storyCount = stories.length
+        totalStoryCount = stories.length
+        storyCount = totalStoryCount
         showStories(stories)
     }
 
@@ -64,6 +67,20 @@ const StoryList: React.FC = () => {
                 onEsc={() => setStory(null)}
                 onClickOutside={() => setStory(null)}
             >
+                <div className={'flex flex-row w-full justify-center mt-8'}>
+                    {stories.map((storyItemModel, i) =>
+                        <div
+                            key={i}
+                            className={"w-10 h-1 mr-1 bg-white"}
+                        />
+                    )}
+                </div>
+                <For of={Array.from(Array(totalStoryCount).keys())} render={(item, index) =>
+                    <div
+                        key={index}
+                        className={"w-8 h-2 mr-1 bg-white"}
+                    />
+                }/>
                 <img
                     className={'h-90 m-auto mt-12'}
                     src={story ? story.url : 'assets/images/others/placeholder_2.png'}
