@@ -67,11 +67,11 @@ const StoryList: React.FC = () => {
                 onEsc={() => setStory(null)}
                 onClickOutside={() => setStory(null)}
             >
-                <div className={'flex flex-row w-full justify-center mt-8'}>
+                <div className={'flex flex-row w-1/4 m-auto mt-8'}>
                     {stories.map((storyItemModel, i) =>
                         <div
                             key={i}
-                            className={"w-10 h-1 mr-1 bg-white"}
+                            className={"h-1 mr-1 bg-white flex-1"}
                         />
                     )}
                 </div>
@@ -82,7 +82,7 @@ const StoryList: React.FC = () => {
                     />
                 }/>
                 <img
-                    className={'h-90 m-auto mt-12'}
+                    className={' w-1/4 m-auto mt-12'}
                     src={story ? story.url : 'assets/images/others/placeholder_2.png'}
                     alt={"Dummy Story"}/>
             </Layer>
