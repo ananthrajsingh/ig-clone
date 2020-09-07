@@ -12,13 +12,18 @@ import {getDummyUser} from "../../mock-generators/user.generator";
 const StoryList: React.FC = () => {
 
     let [story, setStory] = useState<StoryItemModel | null>(null)
-    // let [storyCount, setStoryCount] = useState<number>(0)
+    let [stories, setStories] = useState<StoryItemModel[]>(getDummyStoryItemArray(getDummyUser()))
     let storyCount = 0
-    let stories = getDummyStoryItemArray(getDummyUser())
     let totalStoryCount = 0
 
     function onAvatarClick(user: UserModel) {
         fetchStories(user)
+    }
+
+    function getBarBackground(story: StoryItemModel | null) {
+        if (story)
+            return story.seen ? 'bg-gray-normal' : 'bg-white'
+        return 'bg-white'
     }
 
     /**
@@ -27,8 +32,9 @@ const StoryList: React.FC = () => {
      */
     function fetchStories(user: UserModel) {
         // TODO Fetch real stories from backend
-        stories = getDummyStoryItemArray(user)
-        // setStoryCount(stories.length)
+        // Redundant call below
+        console.log("Fetching stories...")
+        setStories(getDummyStoryItemArray(user))
         totalStoryCount = stories.length
         storyCount = totalStoryCount
         showStories(stories)
@@ -39,17 +45,28 @@ const StoryList: React.FC = () => {
             setStory(null)
             return
         }
-        setStory(stories[stories.length - storyCount])
-        // let newCount = storyCount - 1
-        // console.log("newCount: " + newCount)
-        // setStoryCount(1) // for debugging
+        let currentIndex = stories.length - storyCount
+        setSeenAtIndex(currentIndex)
+        // console.log(stories)
+
+        setStory(stories[currentIndex])
         storyCount--
-        console.log("storyCount: " + storyCount)
         setTimeout(
             function () {
                 showStories(stories)
             }, 3000
         )
+    }
+    function setSeenAtIndex(i: number) {
+        console.log("Setting seen at: " + i)
+        let items: StoryItemModel[] = [...stories]
+        let item: StoryItemModel = {...items[i]}
+        item.seen = true
+        items[i] = item
+        setStories(items)
+        for (let item of stories) {
+            console.log(item)
+        }
     }
 
     // removing space-y-8 since  it hindered with story with margin
@@ -71,16 +88,10 @@ const StoryList: React.FC = () => {
                     {stories.map((storyItemModel, i) =>
                         <div
                             key={i}
-                            className={"h-1 mr-1 bg-white flex-1"}
+                            className={"h-1 mr-1 flex-1 " + getBarBackground(storyItemModel)}
                         />
                     )}
                 </div>
-                <For of={Array.from(Array(totalStoryCount).keys())} render={(item, index) =>
-                    <div
-                        key={index}
-                        className={"w-8 h-2 mr-1 bg-white"}
-                    />
-                }/>
                 <img
                     className={' w-1/4 m-auto mt-12'}
                     src={story ? story.url : 'assets/images/others/placeholder_2.png'}
