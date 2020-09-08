@@ -11,15 +11,30 @@ import {getDummyUser} from "../../mock-generators/user.generator";
 
 const StoryList: React.FC = () => {
 
+
     let [story, setStory] = useState<StoryItemModel | null>(null)
+    /*
+    Uses setState because useEffect depends on it.
+    When Story item is seen, this is updated hence the useEffect is called
+    initially when stories are fetched and populated, then when subsequently when they
+    are set seen.
+    */
     let [stories, setStories] = useState<StoryItemModel[]>([])
     let storyCount = useRef(0)
     let totalStoryCount = 0
 
+    /**
+     * Callback method passed to {@link Avatar} component. Executed when an {@link Avatar} is clicked.
+     * @param user Tells which user's Avatar was clicked
+     */
     function onAvatarClick(user: UserModel) {
         fetchStories(user)
     }
 
+    /**
+     * Decide and return the color of the progress bar depending on whether the story is seen or not.
+     * @param story The story which is to analysed for seen
+     */
     function getBarBackground(story: StoryItemModel | null) {
         if (story)
             return story.seen ? 'bg-gray-normal' : 'bg-white'
@@ -32,22 +47,16 @@ const StoryList: React.FC = () => {
      */
     function fetchStories(user: UserModel) {
         // TODO Fetch real stories from backend
-        // Redundant call below
         console.log("Fetching stories...")
         setStories(getDummyStoryItemArray(user))
-        // totalStoryCount = stories.length
-        // storyCount.current = totalStoryCount
-        // showStories()
     }
 
     useEffect(() => {
         if (stories !== []) {
-            console.log("Using Effect")
             if (story === null) {
                 totalStoryCount = stories.length
                 storyCount.current = totalStoryCount
             }
-
             showStories()
         }
     }, [stories])
@@ -58,10 +67,6 @@ const StoryList: React.FC = () => {
             setStory(null)
             return
         }
-        // let currentIndex = stories.length - storyCount
-        // setSeenAtIndex(currentIndex)
-        // setStory(stories[currentIndex])
-        // storyCount--
         setTimeout(
             function () {
                 let currentIndex = stories.length - storyCount.current
@@ -69,7 +74,6 @@ const StoryList: React.FC = () => {
                 setStory(stories[currentIndex])
                 storyCount.current = storyCount.current - 1
                 console.log("storyCount " + storyCount.current)
-                // showStories()
             }, 3000
         )
     }
@@ -77,11 +81,7 @@ const StoryList: React.FC = () => {
         let items: StoryItemModel[] = [...stories]
         let item: StoryItemModel = {...items[i]}
         item.seen = true
-        console.log("Setting seen for: " + item.seen + " " + item.url + " " + i)
         items[i] = item
-        // for (let item of items) {
-        //     console.log(item)
-        // }
         setStories(items)
     }
 
