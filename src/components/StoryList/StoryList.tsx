@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './StoryList.scss';
 import {CirclePlay} from 'grommet-icons';
 import {For, If} from 'react-extras';
@@ -12,8 +12,8 @@ import {getDummyUser} from "../../mock-generators/user.generator";
 const StoryList: React.FC = () => {
 
     let [story, setStory] = useState<StoryItemModel | null>(null)
-    let [stories, setStories] = useState<StoryItemModel[]>(getDummyStoryItemArray(getDummyUser()))
-    let storyCount = 0
+    let [stories, setStories] = useState<StoryItemModel[]>([])
+    let storyCount = useRef(0)
     let totalStoryCount = 0
 
     function onAvatarClick(user: UserModel) {
@@ -35,38 +35,54 @@ const StoryList: React.FC = () => {
         // Redundant call below
         console.log("Fetching stories...")
         setStories(getDummyStoryItemArray(user))
-        totalStoryCount = stories.length
-        storyCount = totalStoryCount
-        showStories(stories)
+        // totalStoryCount = stories.length
+        // storyCount.current = totalStoryCount
+        // showStories()
     }
 
-    function showStories(stories: StoryItemModel[]) {
-        if (storyCount === 0) {
+    useEffect(() => {
+        if (stories !== []) {
+            console.log("Using Effect")
+            if (story === null) {
+                totalStoryCount = stories.length
+                storyCount.current = totalStoryCount
+            }
+
+            showStories()
+        }
+    }, [stories])
+
+
+    function showStories() {
+        if (storyCount.current === 0) {
             setStory(null)
             return
         }
-        let currentIndex = stories.length - storyCount
-        setSeenAtIndex(currentIndex)
-        // console.log(stories)
-
-        setStory(stories[currentIndex])
-        storyCount--
+        // let currentIndex = stories.length - storyCount
+        // setSeenAtIndex(currentIndex)
+        // setStory(stories[currentIndex])
+        // storyCount--
         setTimeout(
             function () {
-                showStories(stories)
+                let currentIndex = stories.length - storyCount.current
+                setSeenAtIndex(currentIndex)
+                setStory(stories[currentIndex])
+                storyCount.current = storyCount.current - 1
+                console.log("storyCount " + storyCount.current)
+                // showStories()
             }, 3000
         )
     }
     function setSeenAtIndex(i: number) {
-        console.log("Setting seen at: " + i)
         let items: StoryItemModel[] = [...stories]
         let item: StoryItemModel = {...items[i]}
         item.seen = true
+        console.log("Setting seen for: " + item.seen + " " + item.url + " " + i)
         items[i] = item
+        // for (let item of items) {
+        //     console.log(item)
+        // }
         setStories(items)
-        for (let item of stories) {
-            console.log(item)
-        }
     }
 
     // removing space-y-8 since  it hindered with story with margin
