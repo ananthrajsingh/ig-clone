@@ -1,22 +1,44 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './StoryList.scss';
 import {CirclePlay} from 'grommet-icons';
 import {For, If} from 'react-extras';
 import Avatar, {AvatarSize} from '../Avatar/Avatar';
 import {Layer} from "grommet/es6";
-import { StoryItemModel } from "../../models/ui/story-item.model";
-import { UserModel } from "../../models/user.model";
-import { getDummyStoryItemArray } from "../../mock-generators/story-item.generator";
-import { getDummyUser } from "../../mock-generators/user.generator";
+import {StoryItemModel} from "../../models/ui/story-item.model";
+import {UserModel} from "../../models/user.model";
+import {getDummyStoryItemArray} from "../../mock-generators/story-item.generator";
+import {getDummyUser} from "../../mock-generators/user.generator";
 
 const StoryList: React.FC = () => {
 
-    let [story, setStory] = useState<StoryItemModel | null>(null)
-    // let [storyCount, setStoryCount] = useState<number>(0)
-    let storyCount = 0
 
+    let [story, setStory] = useState<StoryItemModel | null>(null)
+    /*
+    Uses setState because useEffect depends on it.
+    When Story item is seen, this is updated hence the useEffect is called
+    initially when stories are fetched and populated, then when subsequently when they
+    are set seen.
+    */
+    let [stories, setStories] = useState<StoryItemModel[]>([])
+    let storyCount = useRef(0)
+    let totalStoryCount = 0
+
+    /**
+     * Callback method passed to {@link Avatar} component. Executed when an {@link Avatar} is clicked.
+     * @param user Tells which user's Avatar was clicked
+     */
     function onAvatarClick(user: UserModel) {
         fetchStories(user)
+    }
+
+    /**
+     * Decide and return the color of the progress bar depending on whether the story is seen or not.
+     * @param story The story which is to analysed for seen
+     */
+    function getBarBackground(story: StoryItemModel | null) {
+        if (story)
+            return story.seen ? 'bg-gray-normal' : 'bg-white'
+        return 'bg-white'
     }
 
     /**
@@ -25,28 +47,42 @@ const StoryList: React.FC = () => {
      */
     function fetchStories(user: UserModel) {
         // TODO Fetch real stories from backend
-        let stories = getDummyStoryItemArray(user)
-        // setStoryCount(stories.length)
-        storyCount = stories.length
-        showStories(stories)
+        console.log("Fetching stories...")
+        setStories(getDummyStoryItemArray(user))
     }
 
-    function showStories(stories: StoryItemModel[]) {
-        if (storyCount === 0) {
+    useEffect(() => {
+        if (stories !== []) {
+            if (story === null) {
+                totalStoryCount = stories.length
+                storyCount.current = totalStoryCount
+            }
+            showStories()
+        }
+    }, [stories])
+
+
+    function showStories() {
+        if (storyCount.current === 0) {
             setStory(null)
             return
         }
-        setStory(stories[stories.length - storyCount])
-        // let newCount = storyCount - 1
-        // console.log("newCount: " + newCount)
-        // setStoryCount(1) // for debugging
-        storyCount--
-        console.log("storyCount: " + storyCount)
         setTimeout(
             function () {
-                showStories(stories)
+                let currentIndex = stories.length - storyCount.current
+                setSeenAtIndex(currentIndex)
+                setStory(stories[currentIndex])
+                storyCount.current = storyCount.current - 1
+                console.log("storyCount " + storyCount.current)
             }, 3000
         )
+    }
+    function setSeenAtIndex(i: number) {
+        let items: StoryItemModel[] = [...stories]
+        let item: StoryItemModel = {...items[i]}
+        item.seen = true
+        items[i] = item
+        setStories(items)
     }
 
     // removing space-y-8 since  it hindered with story with margin
@@ -64,8 +100,16 @@ const StoryList: React.FC = () => {
                 onEsc={() => setStory(null)}
                 onClickOutside={() => setStory(null)}
             >
+                <div className={'flex flex-row w-1/4 m-auto mt-8'}>
+                    {stories.map((storyItemModel, i) =>
+                        <div
+                            key={i}
+                            className={"h-1 mr-1 flex-1 " + getBarBackground(storyItemModel)}
+                        />
+                    )}
+                </div>
                 <img
-                    className={'h-90 m-auto mt-12'}
+                    className={' w-1/4 m-auto mt-12'}
                     src={story ? story.url : 'assets/images/others/placeholder_2.png'}
                     alt={"Dummy Story"}/>
             </Layer>
