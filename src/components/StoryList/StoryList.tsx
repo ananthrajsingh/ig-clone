@@ -8,6 +8,7 @@ import {StoryItemModel} from "../../models/ui/story-item.model";
 import {UserModel} from "../../models/user.model";
 import {getDummyStoryItemArray} from "../../mock-generators/story-item.generator";
 import {getDummyUser} from "../../mock-generators/user.generator";
+import {log} from "util";
 
 const StoryList: React.FC = () => {
 
@@ -52,6 +53,7 @@ const StoryList: React.FC = () => {
     }
 
     useEffect(() => {
+        console.log("Using effect...")
         if (stories !== []) {
             if (story === null) {
                 totalStoryCount = stories.length
@@ -63,26 +65,38 @@ const StoryList: React.FC = () => {
 
 
     function showStories() {
+        console.log("Showing stories")
         if (storyCount.current === 0) {
             setStory(null)
             return
         }
         setTimeout(
             function () {
-                let currentIndex = stories.length - storyCount.current
-                setSeenAtIndex(currentIndex)
-                setStory(stories[currentIndex])
-                storyCount.current = storyCount.current - 1
-                console.log("storyCount " + storyCount.current)
+                if (storyCount.current !== 0) {
+                    let currentIndex = stories.length - storyCount.current
+                    setSeenAtIndex(currentIndex)
+                    setStory(stories[currentIndex])
+                    storyCount.current = storyCount.current - 1
+                }
             }, 3000
         )
     }
+
+    function abortShowingStories() {
+        console.log("Aborting...")
+        setStory(null)
+        // Only this changes instantly, so check for this when showing story
+        storyCount.current = 0
+        setStories([])
+    }
     function setSeenAtIndex(i: number) {
-        let items: StoryItemModel[] = [...stories]
-        let item: StoryItemModel = {...items[i]}
-        item.seen = true
-        items[i] = item
-        setStories(items)
+        if (storyCount.current !== 0) {
+            let items: StoryItemModel[] = [...stories]
+            let item: StoryItemModel = {...items[i]}
+            item.seen = true
+            items[i] = item
+            setStories(items)
+        }
     }
 
     // removing space-y-8 since  it hindered with story with margin
@@ -97,8 +111,8 @@ const StoryList: React.FC = () => {
         <If condition={story !== null}>
             <Layer
                 className={'w-full h-full bg-black absolute z-50 bg-opacity-90'}
-                onEsc={() => setStory(null)}
-                onClickOutside={() => setStory(null)}
+                onEsc={() => abortShowingStories()}
+                onClickOutside={() => abortShowingStories()}
             >
                 <div className={'flex flex-row w-1/4 m-auto mt-8'}>
                     {stories.map((storyItemModel, i) =>
