@@ -8,7 +8,6 @@ import {StoryItemModel} from "../../models/ui/story-item.model";
 import {UserModel} from "../../models/user.model";
 import {getDummyStoryItemArray} from "../../mock-generators/story-item.generator";
 import {getDummyUser} from "../../mock-generators/user.generator";
-import {log} from "util";
 
 const StoryList: React.FC = () => {
 
@@ -22,6 +21,7 @@ const StoryList: React.FC = () => {
     */
     let [stories, setStories] = useState<StoryItemModel[]>([])
     let storyCount = useRef(0)
+    let nextStoryTimeout = useRef<NodeJS.Timeout | null>(null)
     let totalStoryCount = 0
 
     /**
@@ -53,7 +53,6 @@ const StoryList: React.FC = () => {
     }
 
     useEffect(() => {
-        console.log("Using effect...")
         if (stories !== []) {
             if (story === null) {
                 totalStoryCount = stories.length
@@ -65,38 +64,58 @@ const StoryList: React.FC = () => {
 
 
     function showStories() {
-        console.log("Showing stories")
         if (storyCount.current === 0) {
             setStory(null)
             return
         }
-        setTimeout(
+        nextStoryTimeout.current = setTimeout(
             function () {
                 if (storyCount.current !== 0) {
-                    let currentIndex = stories.length - storyCount.current
-                    setSeenAtIndex(currentIndex)
-                    setStory(stories[currentIndex])
-                    storyCount.current = storyCount.current - 1
+                    showNextStory()
                 }
             }, 3000
         )
     }
 
+    function showNextStory() {
+        let currentIndex = stories.length - storyCount.current
+        setStory(stories[currentIndex])
+        storyCount.current = storyCount.current - 1
+        // Below function should be called after the count is updated
+        // If we setSeenAtIndex before updating storyCount, storyCount is not
+        // updated for the first call for some reason, maybe because asynchronously
+        // useEffect is called and updating storyCount is ignored.
+        setSeenAtIndex(currentIndex)
+    }
+
+    /**
+     * Used to explicitly increment stories, faster than the normal flow.
+     */
+    function incrementStory() {
+        if (nextStoryTimeout.current !== null) {
+            clearInterval(nextStoryTimeout?.current)
+        }
+        showNextStory()
+    }
+
+    /**
+     * Resets the states and refs used for stories. Reset takes care of aborting the
+     * process of showing stories as this leads to failing conditions to show story.
+     */
     function abortShowingStories() {
         console.log("Aborting...")
         setStory(null)
-        // Only this changes instantly, so check for this when showing story
+        // Only storyCount changes instantly, so check for this when showing story
         storyCount.current = 0
         setStories([])
     }
+
     function setSeenAtIndex(i: number) {
-        if (storyCount.current !== 0) {
-            let items: StoryItemModel[] = [...stories]
-            let item: StoryItemModel = {...items[i]}
-            item.seen = true
-            items[i] = item
-            setStories(items)
-        }
+        let items: StoryItemModel[] = [...stories]
+        let item: StoryItemModel = {...items[i]}
+        item.seen = true
+        items[i] = item
+        setStories(items)
     }
 
     // removing space-y-8 since  it hindered with story with margin
@@ -123,9 +142,11 @@ const StoryList: React.FC = () => {
                     )}
                 </div>
                 <img
+                    onClick={() => incrementStory()}
                     className={' w-1/4 m-auto mt-12'}
                     src={story ? story.url : 'assets/images/others/placeholder_2.png'}
                     alt={"Dummy Story"}/>
+                {/*TODO Add Cross icon to dismiss stories*/}
             </Layer>
         </If>
         <div
