@@ -65,7 +65,12 @@ const StoryList: React.FC = () => {
 
     function showStories() {
         if (storyCount.current === 0) {
-            setStory(null)
+            setTimeout(
+                function () {
+                    setStory(null)
+                },
+            3000)
+
             return
         }
         nextStoryTimeout.current = setTimeout(
@@ -98,6 +103,22 @@ const StoryList: React.FC = () => {
         showNextStory()
     }
 
+    function decrementStory() {
+        // If current count is equal to total - 1 means first story is being shown
+        if (storyCount.current <= totalStoryCount) {
+            console.log("decrementStory() storyCount.current: " + storyCount.current)
+            if (nextStoryTimeout.current !== null) {
+                clearInterval(nextStoryTimeout?.current)
+            }
+            showPrevStory()
+        }
+    }
+
+    function showPrevStory() {
+            storyCount.current = storyCount.current + 1
+            console.log("showPrevStory() updated storyCount.current: " + storyCount.current)
+            showStories()
+    }
     /**
      * Resets the states and refs used for stories. Reset takes care of aborting the
      * process of showing stories as this leads to failing conditions to show story.
@@ -142,7 +163,7 @@ const StoryList: React.FC = () => {
                     )}
                 </div>
                 <img
-                    onClick={() => incrementStory()}
+                    onClick={() => decrementStory()}
                     className={' w-1/4 m-auto mt-12'}
                     src={story ? story.url : 'assets/images/others/placeholder_2.png'}
                     alt={"Dummy Story"}/>
