@@ -22,7 +22,6 @@ const StoryList: React.FC = () => {
     let [stories, setStories] = useState<StoryItemModel[]>([])
     let storyCount = useRef(0)
     let nextStoryTimeout = useRef<NodeJS.Timeout | null>(null)
-    let totalStoryCount = 0
 
     /**
      * Callback method passed to {@link Avatar} component. Executed when an {@link Avatar} is clicked.
@@ -48,6 +47,7 @@ const StoryList: React.FC = () => {
      */
     function fetchStories(user: UserModel) {
         // TODO Fetch real stories from backend
+        if (nextStoryTimeout.current !== null) return
         console.log("Fetching stories...")
         setStories(getDummyStoryItemArray(user))
     }
@@ -55,8 +55,7 @@ const StoryList: React.FC = () => {
     useEffect(() => {
         if (stories !== []) {
             if (story === null) {
-                totalStoryCount = stories.length
-                storyCount.current = totalStoryCount
+                storyCount.current = stories.length
             }
             showStories()
         }
@@ -65,12 +64,13 @@ const StoryList: React.FC = () => {
 
     function showStories() {
         if (storyCount.current === 0) {
-            setTimeout(
+            // Because we want the last story also to be shown for x seconds
+            nextStoryTimeout.current = setTimeout(
                 function () {
                     setStory(null)
+                    nextStoryTimeout.current = null
                 },
             3000)
-
             return
         }
         nextStoryTimeout.current = setTimeout(
@@ -105,8 +105,9 @@ const StoryList: React.FC = () => {
 
     function decrementStory() {
         // If current count is equal to total - 1 means first story is being shown
-        if (storyCount.current <= totalStoryCount) {
-            console.log("decrementStory() storyCount.current: " + storyCount.current)
+        console.log("decrementStory() storyCount.current: " + storyCount.current + " stories.length: " + stories.length)
+
+        if (storyCount.current <= stories.length) {
             if (nextStoryTimeout.current !== null) {
                 clearInterval(nextStoryTimeout?.current)
             }
