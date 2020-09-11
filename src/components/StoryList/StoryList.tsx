@@ -70,7 +70,7 @@ const StoryList: React.FC = () => {
                     setStory(null)
                     nextStoryTimeout.current = null
                 },
-            3000)
+                3000)
             return
         }
         nextStoryTimeout.current = setTimeout(
@@ -80,6 +80,18 @@ const StoryList: React.FC = () => {
                 }
             }, 3000
         )
+    }
+
+
+
+    /**
+     * Used to explicitly increment stories, faster than the normal flow.
+     */
+    function incrementStory() {
+        if (nextStoryTimeout.current !== null) {
+            clearInterval(nextStoryTimeout?.current)
+        }
+        showNextStory()
     }
 
     function showNextStory() {
@@ -94,20 +106,14 @@ const StoryList: React.FC = () => {
     }
 
     /**
-     * Used to explicitly increment stories, faster than the normal flow.
+     * Used to show the previous story for the current user. If the story is first story, it's time
+     * is refreshed.
      */
-    function incrementStory() {
-        if (nextStoryTimeout.current !== null) {
-            clearInterval(nextStoryTimeout?.current)
-        }
-        showNextStory()
-    }
-
     function decrementStory() {
         // If current count is equal to total - 1 means first story is being shown
         console.log("decrementStory() storyCount.current: " + storyCount.current + " stories.length: " + stories.length)
 
-        if (storyCount.current <= stories.length) {
+        if (storyCount.current < stories.length) {
             if (nextStoryTimeout.current !== null) {
                 clearInterval(nextStoryTimeout?.current)
             }
@@ -116,10 +122,16 @@ const StoryList: React.FC = () => {
     }
 
     function showPrevStory() {
-            storyCount.current = storyCount.current + 1
-            console.log("showPrevStory() updated storyCount.current: " + storyCount.current)
-            showStories()
+        storyCount.current = storyCount.current + 2
+        if (storyCount.current > stories.length) storyCount.current = stories.length
+        let currentIndex = stories.length - storyCount.current
+        // In order to instantly change the story.
+        // If we skip below line, previous story will be shown anyway
+        // but not instantly on click, rather, after the time of current story elapses
+        setStory(stories[currentIndex])
+        showStories()
     }
+
     /**
      * Resets the states and refs used for stories. Reset takes care of aborting the
      * process of showing stories as this leads to failing conditions to show story.
