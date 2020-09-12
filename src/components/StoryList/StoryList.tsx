@@ -83,11 +83,11 @@ const StoryList: React.FC = () => {
     }
 
 
-
     /**
      * Used to explicitly increment stories, faster than the normal flow.
      */
     function incrementStory() {
+        if (storyCount.current <= 0) return
         if (nextStoryTimeout.current !== null) {
             clearInterval(nextStoryTimeout?.current)
         }
