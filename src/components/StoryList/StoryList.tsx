@@ -12,6 +12,7 @@ import {getDummyUser} from "../../mock-generators/user.generator";
 const StoryList: React.FC = () => {
 
 
+    let [storyUser, setStoryUser] = useState<UserModel | null>(null)
     let [story, setStory] = useState<StoryItemModel | null>(null)
     /*
     Uses setState because useEffect depends on it.
@@ -28,6 +29,7 @@ const StoryList: React.FC = () => {
      * @param user Tells which user's Avatar was clicked
      */
     function onAvatarClick(user: UserModel) {
+        setStoryUser(user)
         fetchStories(user)
     }
 
@@ -167,15 +169,34 @@ const StoryList: React.FC = () => {
                 onEsc={() => abortShowingStories()}
                 onClickOutside={() => abortShowingStories()}
             >
-                <div className={'flex flex-row w-1/4 m-auto mt-8'}>
-                    {stories.map((storyItemModel, i) =>
-                        <div
-                            key={i}
-                            className={"h-1 mr-1 flex-1 " + getBarBackground(storyItemModel)}
-                        />
-                    )}
-                </div>
+                {/*<div className={'flex flex-row w-1/4 m-auto mt-8'}>*/}
+                {/*    {stories.map((storyItemModel, i) =>*/}
+                {/*        <div*/}
+                {/*            key={i}*/}
+                {/*            className={"h-1 mr-1 flex-1 " + getBarBackground(storyItemModel)}*/}
+                {/*        />*/}
+                {/*    )}*/}
+                {/*</div>*/}
+
                 <div className={'w-1/4 m-auto mt-12 relative'}>
+                    <div className={'flex flex-row w-full m-auto mb-12'}>
+                        <div
+                            className={'Avatar rounded-full p-2 h-6 w-6'}
+                            // TODO Change placeholder image
+                            style={{background: 'url("assets/images/others/placeholder-dp.png") 50% 50% no-repeat'}}>
+                        </div>
+                        <p className={'flex-1 ml-2 text-white'}>
+                            {storyUser?.username}
+                        </p>
+                    </div>
+                    <div className={'flex flex-row w-full m-auto mt-8 mb-4'}>
+                        {stories.map((storyItemModel, i) =>
+                            <div
+                                key={i}
+                                className={"h-1 mr-1 flex-1 " + getBarBackground(storyItemModel)}
+                            />
+                        )}
+                    </div>
                     <img
                         onClick={() => incrementStory()}
                         className={'h-full mr-1 w-4 z-10 absolute right-0'}
