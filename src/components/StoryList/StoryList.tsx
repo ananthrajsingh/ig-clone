@@ -175,11 +175,27 @@ const StoryList: React.FC = () => {
                         />
                     )}
                 </div>
-                <img
-                    onClick={() => decrementStory()}
-                    className={' w-1/4 m-auto mt-12'}
-                    src={story ? story.url : 'assets/images/others/placeholder_2.png'}
-                    alt={"Dummy Story"}/>
+                <div className={'w-1/4 m-auto mt-12 relative'}>
+                    <img
+                        onClick={() => incrementStory()}
+                        className={'h-full mr-1 w-4 z-10 absolute right-0'}
+                        src={'assets/images/icons/story_next.svg'}
+                        alt={'Next Story'}
+                    />
+                    <img
+                        onClick={() => decrementStory()}
+                        className={'h-full ml-1 w-4 z-10 absolute'}
+                        src={'assets/images/icons/story_prev.svg'}
+                        alt={'Prev Story'}
+                    />
+                    <img
+                        onClick={() => incrementStory()}
+                        className={''}
+                        src={story ? story.url : 'assets/images/others/placeholder_2.png'}
+                        alt={"Story"}/>
+
+                </div>
+
                 {/*TODO Add Cross icon to dismiss stories*/}
             </Layer>
         </If>
