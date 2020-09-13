@@ -1,17 +1,20 @@
 import React, {useState, useEffect, useRef} from 'react';
 import './StoryList.scss';
 import {CirclePlay} from 'grommet-icons';
-import {For, If} from 'react-extras';
-import Avatar, {AvatarSize} from '../Avatar/Avatar';
+import {If} from 'react-extras';
+import Avatar from '../Avatar/Avatar';
 import {Layer} from "grommet/es6";
 import {StoryItemModel} from "../../models/ui/story-item.model";
 import {UserModel} from "../../models/user.model";
 import {getDummyStoryItemArray} from "../../mock-generators/story-item.generator";
-import {getDummyUser} from "../../mock-generators/user.generator";
+// import {getDummyUser} from "../../mock-generators/user.generator";
+import {AvatarProps} from "../Avatar/Avatar";
+import {getDummyStoryAvatars} from "../../mock-generators/story-avatar.generator";
 
+// TODO StoryList should get as props the logged in user for which we are loading the stories
 const StoryList: React.FC = () => {
 
-
+    let [storyAvatars, setStoryAvatars] = useState<AvatarProps[] | null>()
     let [storyUser, setStoryUser] = useState<UserModel | null>(null)
     let [story, setStory] = useState<StoryItemModel | null>(null)
     /*
@@ -24,6 +27,15 @@ const StoryList: React.FC = () => {
     let storyCount = useRef(0)
     let nextStoryTimeout = useRef<NodeJS.Timeout | null>(null)
 
+
+    useEffect(() => {
+        fetchStoryAvatars('some_user_id')
+    }, [])
+
+    function fetchStoryAvatars(userId: string) {
+        // TODO Fetch from backend instead
+        setStoryAvatars(getDummyStoryAvatars(userId))
+    }
     /**
      * Callback method passed to {@link Avatar} component. Executed when an {@link Avatar} is clicked.
      * @param user Tells which user's Avatar was clicked
@@ -220,17 +232,30 @@ const StoryList: React.FC = () => {
                 {/*TODO Add Cross icon to dismiss stories*/}
             </Layer>
         </If>
+        {/*<div*/}
+        {/*    className={'flex flex-row justify-start items-center space-x-4 mt-8 max-w-full overflow-x-auto overflow-y-hidden'}>*/}
+        {/*    <For of={Array.from(Array(25).keys())} render={(item, index) =>*/}
+        {/*        <Avatar*/}
+        {/*            key={index}*/}
+        {/*            size={AvatarSize.sm}*/}
+        {/*            onClick={onAvatarClick}*/}
+        {/*            user={getDummyUser()}*/}
+        {/*            showRing={true}*/}
+        {/*        />*/}
+        {/*    }/>*/}
+        {/*</div>*/}
+
         <div
             className={'flex flex-row justify-start items-center space-x-4 mt-8 max-w-full overflow-x-auto overflow-y-hidden'}>
-            <For of={Array.from(Array(25).keys())} render={(item, index) =>
-                <Avatar
-                    key={index}
-                    size={AvatarSize.sm}
+            {storyAvatars?.map((storyAvatar, i) => {
+                return <Avatar
+                    key={i}
+                    size={storyAvatar.size}
                     onClick={onAvatarClick}
-                    user={getDummyUser()}
-                    showRing={true}
+                    user={storyAvatar.user}
+                    showRing={storyAvatar.showRing}
                 />
-            }/>
+            })}
         </div>
     </div>
 }

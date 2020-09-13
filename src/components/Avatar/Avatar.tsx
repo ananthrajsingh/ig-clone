@@ -10,7 +10,7 @@ export enum AvatarSize {
     sm
 }
 // TODO they won't be optional
-interface AvatarProps extends GlobalProps {
+export interface AvatarProps extends GlobalProps {
     user: UserModel
     avatarUrl?: string
     showRing: boolean
