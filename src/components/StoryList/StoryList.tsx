@@ -14,7 +14,7 @@ import {getDummyStoryAvatars} from "../../mock-generators/story-avatar.generator
 // TODO StoryList should get as props the logged in user for which we are loading the stories
 const StoryList: React.FC = () => {
 
-    let [storyAvatars, setStoryAvatars] = useState<AvatarProps[] | null>()
+    let [storyAvatars, setStoryAvatars] = useState<AvatarProps[] | null>(null)
     let [storyUser, setStoryUser] = useState<UserModel | null>(null)
     let [story, setStory] = useState<StoryItemModel | null>(null)
     /*
@@ -25,6 +25,7 @@ const StoryList: React.FC = () => {
     */
     let [stories, setStories] = useState<StoryItemModel[]>([])
     let storyCount = useRef(0)
+    let currentUser = useRef<UserModel | null>(null)
     let nextStoryTimeout = useRef<NodeJS.Timeout | null>(null)
 
 
@@ -41,6 +42,7 @@ const StoryList: React.FC = () => {
      * @param user Tells which user's Avatar was clicked
      */
     function onAvatarClick(user: UserModel) {
+        currentUser.current = user
         setStoryUser(user)
         fetchStories(user)
     }
@@ -117,6 +119,9 @@ const StoryList: React.FC = () => {
         // updated for the first call for some reason, maybe because asynchronously
         // useEffect is called and updating storyCount is ignored.
         setSeenAtIndex(currentIndex)
+        if (storyCount.current === 0) {
+            setAvatarAsSeen(currentUser?.current)
+        }
     }
 
     /**
@@ -152,10 +157,25 @@ const StoryList: React.FC = () => {
      */
     function abortShowingStories() {
         console.log("Aborting...")
+        if (nextStoryTimeout.current !== null) {
+            clearInterval(nextStoryTimeout?.current)
+        }
         setStory(null)
         // Only storyCount changes instantly, so check for this when showing story
         storyCount.current = 0
         setStories([])
+    }
+
+    function setAvatarAsSeen(user: UserModel | null) {
+        if (storyAvatars !== null) {
+            let items = [...storyAvatars]
+            for (let avatar of items) {
+                if (avatar.user.username === user?.username) {
+                    avatar.showRing = false
+                }
+            }
+            setStoryAvatars(items)
+        }
     }
 
     function setSeenAtIndex(i: number) {
