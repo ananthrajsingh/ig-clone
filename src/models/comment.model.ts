@@ -3,7 +3,8 @@ export interface CommentModel {
     user_id: number;
     entity_id: number;
     comment_entity: CommentEntity;
-    content: string
+    content: string,
+    id: number
 };
 
 

@@ -5,6 +5,7 @@ export function getRandomLikes(likeCounts: number = 1): LikeModel[] {
     const likes: LikeModel[] = [];
     for (let i = 0; i < likeCounts; i++) {
         likes.push({
+            id: 1,
             created_at: Date.now(),
             user_id: 1,
             entity_id: 1,

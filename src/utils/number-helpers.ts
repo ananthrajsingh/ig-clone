@@ -1,4 +1,4 @@
-export function getFormattedNumber(value: number): string | number {
+export function getFormattedNumber(value: number | any): string | number {
     if (isNaN(value) || value < 0) {
         return 0;
     }

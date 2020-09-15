@@ -1,13 +1,18 @@
 export interface UserModel {
+    id: number
     username: string
     avatar?: string
     firstName: string
     lastName?: string
     verified: boolean
-    male?: boolean
-    dob?: string
-    followers: number
-    following: number
-    posts: number
+    gender: GENDER
+}
+
+
+
+export enum GENDER {
+    MALE = 1,
+    FEMALE,
+    OTHER
 }
 

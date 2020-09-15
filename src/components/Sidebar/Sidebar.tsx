@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Sidebar.scss";
 import { GlobalProps } from "../app/App";
 import ProfileInfo from "../ProfileInfo/ProfileInfo";
@@ -7,6 +7,14 @@ import NavItem from "../NavItem/NavItem";
 import { useNavigation } from "react-navi";
 import { getNavItems } from "../../mock-generators/nav-item.generator";
 import { NavigationItem, NavigationItemType } from "../../models/ui/navigation-item.model";
+import { UserManager } from "../../managers/user.manager";
+import { LoggedInUserStore } from "../../store/logged-in-user/logged-in-user.store";
+import { UserModel } from "../../models/user.model";
+import { useObservable } from "rxjs-hooks";
+import { PostsManager } from "../../managers/posts.manager";
+import { PostsStore } from "../../store/posts/posts.store";
+import { PostModel } from "../../models/post.model";
+import { switchMap } from "rxjs/operators";
 
 
 
@@ -18,12 +26,19 @@ interface SidebarProps extends GlobalProps {
 
 const Sidebar: React.FC<SidebarProps> = (props) => {
     let [selectedItem, setSelectedItem] = useState(NavigationItemType.FEED);
-    let [navItems, setNavItems] = useState<NavigationItem[]>([]);
+    const usersManager = new UserManager(LoggedInUserStore.getInstance());
     let navigator = useNavigation();
-    useEffect(() => {
-        setNavItems(getNavItems());
-        console.log("CALLED");
-    }, []);
+    const loggedInUser: UserModel | null = useObservable(() => {
+        return usersManager.getLoggedInUser();
+    });
+    const postsManager = new PostsManager(PostsStore.getInstance());
+    const posts: PostModel[] | null = useObservable(() => {
+        return usersManager.getLoggedInUser()
+          .pipe(switchMap((loggedInUser: UserModel) => {
+              console.log("SM", loggedInUser);
+              return postsManager.getPostsOfUser(loggedInUser.id);
+          }));
+    });
 
 
     async function onItemClick(item: NavigationItem) {
@@ -44,16 +59,15 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
             <img src={"/assets/images/logos/logo-text.svg"} alt={"Instagram Logo Text"}
                  className={"sm:invisible w-32 ml-2 mt-2 inline"}/>
         </div>
-        <ProfileInfo
+        {loggedInUser ? <ProfileInfo
           className={"mt-8"}
-          name={"John Doe"}
-          username={"@johndoe"}
+          user={loggedInUser as UserModel}
           followerCount={2000}
           followingCount={67687976}
-          postCount={23}
-        />
+          postCount={posts?.length}
+        /> : <></>}
         <div className={"mt-8"}>
-            <For of={navItems} render={(item: NavigationItem, index) => {
+            <For of={getNavItems()} render={(item: NavigationItem, index) => {
                 return <NavItem
                   key={index}
                   onClick={onItemClick}

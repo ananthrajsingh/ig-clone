@@ -9,6 +9,7 @@ export function getRandomComments(commentCounts: number = 1): CommentModel[] {
             created_at: Date.now(),
             user_id: 1,
             entity_id: 1,
+            id: 1,
             content: "Lorem ipsum, impsum dorset.",
             comment_entity: CommentEntity.FEED_ITEM
         });

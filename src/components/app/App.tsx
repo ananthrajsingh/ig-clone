@@ -1,9 +1,10 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import "./App.scss";
 import { Grommet } from "grommet";
 import { deepFreeze } from "grommet/utils";
 import routes from "../../routes/root.route";
 import { Router, View } from "react-navi";
+import { akitaDevtools } from "@datorama/akita";
 
 
 
@@ -39,14 +40,17 @@ export const customTheme = deepFreeze(
 
 
 function App() {
+    useEffect(() => {
+        akitaDevtools();
+    }, []);
     return (
-          <Grommet theme={customTheme}>
-              <Router routes={routes}>
-                  <Suspense fallback={null}>
-                      <View />
-                  </Suspense>
-              </Router>
-          </Grommet>
+      <Grommet theme={customTheme}>
+          <Router routes={routes}>
+              <Suspense fallback={null}>
+                  <View/>
+              </Suspense>
+          </Router>
+      </Grommet>
     );
 }
 
