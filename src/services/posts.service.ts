@@ -5,7 +5,6 @@ import { PostModel } from "../models/post.model";
 
 
 export function fetchUserPosts(userId: number) {
-    console.log("fetchUserPosts");
     fromFetch(`posts/${userId}`)
       .pipe(map(v => v.json()))
       .subscribe(async (val) => {

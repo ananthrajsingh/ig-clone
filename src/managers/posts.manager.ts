@@ -1,9 +1,13 @@
-import { Observable } from "rxjs";
+import { combineLatest, Observable, Subject } from "rxjs";
 import { PostsStore } from "../store/posts/posts.store";
 import { PostModel } from "../models/post.model";
 import { postsQuery } from "../store/posts/posts.query";
-import { filter, switchMap } from "rxjs/operators";
+import { debounceTime, filter, switchMap } from "rxjs/operators";
 import { fetchUserPosts } from "../services/posts.service";
+import { UserManager } from "./user.manager";
+import { UsersStore } from "../store/users/users.store";
+import { fetchUserFeed } from "../services/feed.service";
+import { UserModel } from "../models/user.model";
 
 
 
@@ -31,6 +35,48 @@ export class PostsManager {
           }), switchMap(((data: any) => {
               return postsQuery.selectMany(data?.["user_posts"]?.[userId].postIds);
           })));
+    }
+
+
+    getFeedOfUser(userId = 1, force = false): Observable<PostModel[]> {
+        const $userFeed = new Subject<PostModel[]>();
+        const usersManager = new UserManager(UsersStore.getInstance());
+
+        if (force || (!postsQuery.getValue().user_feed[userId]?.isLoading && !postsQuery.getValue().user_feed[userId]?.isLoaded)) {
+            fetchUserFeed(userId);
+            this.store.update(state => { // set in store that we are loading data now.
+                return {
+                    ...state,
+                    user_feed: {...state.user_feed, [userId]: {isLoading: true, isLoaded: false}}
+                };
+            });
+        }
+        combineLatest([usersManager.getFollowers(userId), postsQuery.select(`user_feed`), postsQuery.select([`user_posts`]), postsQuery.selectAll()])
+          .pipe(filter(val => val[1][userId].isLoaded && !val[1][userId].isLoading), debounceTime(1000))
+          .subscribe((k: any[]) => {
+              const flatUsers: any = {};
+              const flatPosts: any = {};
+              const allPosts: PostModel[] = [];
+              k[0].forEach((following: UserModel) => {
+                  flatUsers[following.id] = following;
+              });
+              k[3].forEach((post: PostModel) => {
+                  flatPosts[post.id] = post;
+              });
+              for (const followingId in flatUsers) {
+                  const userPosts = k[2]?.["user_posts"]?.[followingId]?.["postIds"];
+                  if (!userPosts) {
+                      continue;
+                  }
+                  for (const postId of userPosts) {
+                      const post: PostModel = {...flatPosts[postId]};
+                      post.creator = flatUsers[post.creator_id];
+                      allPosts.push(post);
+                  }
+              }
+              $userFeed.next(allPosts);
+          });
+        return $userFeed;
     }
 
 }

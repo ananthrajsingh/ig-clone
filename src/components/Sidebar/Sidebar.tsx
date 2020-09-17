@@ -7,7 +7,6 @@ import NavItem from "../NavItem/NavItem";
 import { useNavigation } from "react-navi";
 import { getNavItems } from "../../mock-generators/nav-item.generator";
 import { NavigationItem, NavigationItemType } from "../../models/ui/navigation-item.model";
-import { UserManager } from "../../managers/user.manager";
 import { LoggedInUserStore } from "../../store/logged-in-user/logged-in-user.store";
 import { UserModel } from "../../models/user.model";
 import { useObservable } from "rxjs-hooks";
@@ -15,6 +14,9 @@ import { PostsManager } from "../../managers/posts.manager";
 import { PostsStore } from "../../store/posts/posts.store";
 import { PostModel } from "../../models/post.model";
 import { switchMap } from "rxjs/operators";
+import { LoggedInUserManager } from "../../managers/logged-in-user.manager";
+import { UserManager } from "../../managers/user.manager";
+import { UsersStore } from "../../store/users/users.store";
 
 
 
@@ -26,17 +28,32 @@ interface SidebarProps extends GlobalProps {
 
 const Sidebar: React.FC<SidebarProps> = (props) => {
     let [selectedItem, setSelectedItem] = useState(NavigationItemType.FEED);
-    const usersManager = new UserManager(LoggedInUserStore.getInstance());
+    const loggedInUserManager = new LoggedInUserManager(LoggedInUserStore.getInstance());
+    const usersManager = new UserManager(UsersStore.getInstance());
     let navigator = useNavigation();
     const loggedInUser: UserModel | null = useObservable(() => {
-        return usersManager.getLoggedInUser();
+        return loggedInUserManager.getLoggedInUser();
     });
     const postsManager = new PostsManager(PostsStore.getInstance());
     const posts: PostModel[] | null = useObservable(() => {
-        return usersManager.getLoggedInUser()
+        return loggedInUserManager.getLoggedInUser()
           .pipe(switchMap((loggedInUser: UserModel) => {
-              console.log("SM", loggedInUser);
               return postsManager.getPostsOfUser(loggedInUser.id);
+          }));
+    });
+
+    const followers: UserModel[] | null = useObservable(() => {
+        postsManager.getFeedOfUser();
+        return loggedInUserManager.getLoggedInUser()
+          .pipe(switchMap((loggedInUser: UserModel) => {
+              return usersManager.getFollowers(loggedInUser.id);
+          }));
+    });
+
+    const following: UserModel[] | null = useObservable(() => {
+        return loggedInUserManager.getLoggedInUser()
+          .pipe(switchMap((loggedInUser: UserModel) => {
+              return usersManager.getFollowing(loggedInUser.id);
           }));
     });
 
@@ -62,8 +79,8 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
         {loggedInUser ? <ProfileInfo
           className={"mt-8"}
           user={loggedInUser as UserModel}
-          followerCount={2000}
-          followingCount={67687976}
+          followerCount={followers?.length}
+          followingCount={following?.length}
           postCount={posts?.length}
         /> : <></>}
         <div className={"mt-8"}>

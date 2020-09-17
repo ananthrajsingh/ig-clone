@@ -5,12 +5,13 @@ import { PostModel } from "../../models/post.model";
 
 export interface PostsState extends EntityState<PostModel> {
     user_posts: { [userId: number]: { postIds: number[], isLoaded: boolean, isLoading: boolean } }
+    user_feed: { [userId: number]: { isLoaded: boolean, isLoading: boolean } }
 }
 
 
 
 export function createInitialState(): PostsState {
-    return {user_posts: {}};
+    return {user_posts: {}, user_feed: {}};
 }
 
 

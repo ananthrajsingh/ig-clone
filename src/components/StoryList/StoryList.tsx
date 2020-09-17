@@ -64,7 +64,6 @@ const StoryList: React.FC = () => {
     function fetchStories(user: UserModel) {
         // TODO Fetch real stories from backend
         if (nextStoryTimeout.current !== null) return
-        console.log("Fetching stories...")
         setStories(getDummyStoryItemArray(user))
     }
 
@@ -130,7 +129,6 @@ const StoryList: React.FC = () => {
      */
     function decrementStory() {
         // If current count is equal to total - 1 means first story is being shown
-        console.log("decrementStory() storyCount.current: " + storyCount.current + " stories.length: " + stories.length)
 
         if (storyCount.current < stories.length) {
             if (nextStoryTimeout.current !== null) {
@@ -156,7 +154,6 @@ const StoryList: React.FC = () => {
      * process of showing stories as this leads to failing conditions to show story.
      */
     function abortShowingStories() {
-        console.log("Aborting...")
         if (nextStoryTimeout.current !== null) {
             clearInterval(nextStoryTimeout?.current)
         }

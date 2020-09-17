@@ -6,20 +6,20 @@ import { getFormattedResponse } from "./mock-server";
 
 export function userRoutes(server: Server) {
     server.get("/followers/:user_id", (request: any) => { // get list of users that follow the user_id
-        const followers: number[] = followList[+request.params.id];
+        const followers: number[] = followList[+request.params.user_id];
         return getFormattedResponse(includeUsers(followers));
     }, 500);
 
     server.get("/followers/count/:user_id", (request: any) => { // get count of list of users that follow the user_id
-        const followers: number[] = followList[+request.params.id];
+        const followers: number[] = followList[+request.params.user_id];
         return getFormattedResponse(followers.length);
     }, 500);
 
 
     server.get("/following/:user_id", (request: any) => { // get list of users that are followed by user_id
         const following: number[] = [];
-        for (const id of Object.keys(followList)) {
-            if (followList[id].includes(+request.params.id)) {
+        for (const id in followList) {
+            if (followList[id].includes(+request.params.user_id)) {
                 following.push(+id);
             }
         }
@@ -29,7 +29,7 @@ export function userRoutes(server: Server) {
     server.get("/following/count/:user_id", (request: any) => { // get list of users that follow the user_id
         const following = [];
         for (const id of Object.keys(followList)) {
-            if (followList[id].includes(+request.params.id)) {
+            if (followList[id].includes(+request.params.user_id)) {
                 following.push(id);
             }
         }
@@ -42,8 +42,8 @@ export function userRoutes(server: Server) {
 }
 
 
-function includeUsers(userIds: number[]): UserModel[] {
-    return userIds.map(followerId => allUsers[followerId]);
+export function includeUsers(userIds: number[]): UserModel[] {
+    return allUsers.filter(user => userIds.includes(user.id));
 }
 
 
@@ -139,20 +139,19 @@ export const allUsers: UserModel[] = [
     }
 ];
 
-const followList: any = [ // "values" are the userIds that follow the "key"
-    {
-        1: [2, 3, 4, 5, 6, 7, 8, 9, 10],
-        2: [1, 3, 4, 5, 7, 8, 9, 10],
-        3: [1, 2, 4, 5, 8, 9, 10],
-        4: [1, 2, 3, 6, 7, 8, 10],
-        5: [1, 2, 3, 4, 6, 7, 9, 10],
-        6: [1, 2, 3, 4, 5, 7, 8, 9, 10],
-        7: [1, 2, 3, 4, 5, 6, 8, 9],
-        8: [2, 3, 4, 5, 6, 7],
-        9: [1, 2, 3, 4, 5, 6, 7, 8, 10],
-        10: [2, 4, 5, 6, 7]
-    }
-];
+export const followList: any =  // "values" are the userIds that follow the "key"
+  {
+      1: [2, 3, 4, 5, 6, 7, 8, 9, 10],
+      2: [1, 3, 4, 5, 7, 8, 9, 10],
+      3: [1, 2, 4, 5, 8, 9, 10],
+      4: [1, 2, 3, 6, 7, 8, 10],
+      5: [1, 2, 3, 4, 6, 7, 9, 10],
+      6: [1, 2, 3, 4, 5, 7, 8, 9, 10],
+      7: [1, 2, 3, 4, 5, 6, 8, 9],
+      8: [2, 3, 4, 5, 6, 7],
+      9: [1, 2, 3, 4, 5, 6, 7, 8, 10],
+      10: [2, 4, 5, 6, 7]
+  };
 
 
 export const MAX_USER_COUNT = 10;

@@ -1,5 +1,6 @@
 import { LikeModel } from "./like.model";
 import { CommentModel } from "./comment.model";
+import { UserModel } from "./user.model";
 
 
 
@@ -10,5 +11,6 @@ export interface PostModel {
     caption: string
     likes?: LikeModel[]
     comments: CommentModel[]
-    created_at: Date
+    created_at: Date,
+    creator?: UserModel
 }

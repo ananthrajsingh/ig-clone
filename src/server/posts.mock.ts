@@ -14,7 +14,7 @@ export function postsMocks(server: Server) {
 }
 
 
-function getRandomPosts(userId: number): PostModel[] {
+export function getRandomPosts(userId: number): PostModel[] {
     if (!savedPosts[userId]) {
         const randomPostsCounts = Math.floor(Math.random() * (20)) + 1;
         const randomPosts: PostModel[] = [];
@@ -30,7 +30,6 @@ function getRandomPosts(userId: number): PostModel[] {
             });
         }
         savedPosts[userId] = randomPosts;
-
     }
     return savedPosts[userId];
 }
