@@ -12,24 +12,38 @@ import { PostModel } from "../../models/post.model";
 import { LoggedInUserManager } from "../../managers/logged-in-user.manager";
 
 const FeedList: React.FC = () => {
+    function shuffle(a: any[]) {
+        if (!a?.length) {
+            return a;
+        }
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+
     const loggedInUserManager = new LoggedInUserManager(LoggedInUserStore.getInstance());
     const postsManager = new PostsManager(PostsStore.getInstance());
-    const feeds: PostModel[] | null = useObservable(() => {
+    const feeds: PostModel[] = useObservable(() => {
         return loggedInUserManager.getLoggedInUser()
           .pipe(switchMap((loggedInUser: UserModel) => {
               return postsManager.getFeedOfUser(loggedInUser.id);
           }));
-    });
+    }) as PostModel[];
     useEffect(() => {
     }, [feeds]);
+
     return <div className="feed-list w-100 overflow-y-auto">
         <Masonry
           breakpointCols={3}
           className="my-masonry-grid"
           columnClassName="my-masonry-grid_column">
-            {feeds?.map((feed, index) => {
-                return <FeedItem feedItem={feed} key={index}/>;
-            })}
+            {shuffle(feeds)
+              ?.map((feed, index) => {
+                  return <FeedItem feedItem={feed} key={index}/>;
+              })}
         </Masonry>
     </div>;
 };

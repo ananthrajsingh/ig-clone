@@ -8,14 +8,15 @@ import { UserModel } from "../../models/user.model";
 
 export enum AvatarSize {
     md = 1,
-    sm
+    sm,
+    xs
 }
 
 
 
 // TODO they won't be optional
 export interface AvatarProps extends GlobalProps {
-    user: UserModel
+    user: UserModel | any
     showRing: boolean
     animateRing?: number
     addMode?: number
@@ -53,6 +54,9 @@ function getClassBySize(size: AvatarSize | undefined): string {
     }
     else if (size === AvatarSize.sm) {
         return "h-20 w-20 min-w-20 min-h-20";
+    }
+    else if (size === AvatarSize.xs) {
+        return "h-6 w-6 min-w-6 min-h-6";
     }
     return "h-24 w-24";
 }
