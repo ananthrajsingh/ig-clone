@@ -115,10 +115,10 @@ const StoryList: React.FC = () => {
         setStory(stories[currentIndex])
         storyCount.current = storyCount.current - 1
         // Below function should be called after the count is updated
-        // If we setSeenAtIndex before updating storyCount, storyCount is not
+        // If we setStorySeenAtIndex before updating storyCount, storyCount is not
         // updated for the first call for some reason, maybe because asynchronously
         // useEffect is called and updating storyCount is ignored.
-        setSeenAtIndex(currentIndex)
+        setStorySeenAtIndex(currentIndex)
         if (storyCount.current === 0) {
             setAvatarAsSeen(currentUser?.current)
         }
@@ -175,10 +175,27 @@ const StoryList: React.FC = () => {
                 }
             }
             setStoryAvatars(items)
+            moveToEnd(user!!)
         }
     }
 
-    function setSeenAtIndex(i: number) {
+    function moveToEnd(user: UserModel) {
+        if (storyAvatars !== null) {
+            let items = [...storyAvatars]
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].user.username === user?.username) {
+                    let temp = items[i]
+                    for (let j = i; j < items.length - 1; j++) {
+                        items[j] = items[j+1]
+                    }
+                    items[items.length - 1] = temp
+                }
+            }
+            setStoryAvatars(items)
+        }
+    }
+
+    function setStorySeenAtIndex(i: number) {
         let items: StoryItemModel[] = [...stories]
         let item: StoryItemModel = {...items[i]}
         item.seen = true
