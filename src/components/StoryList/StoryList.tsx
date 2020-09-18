@@ -218,6 +218,12 @@ const StoryList: React.FC = () => {
                 onEsc={() => abortShowingStories()}
                 onClickOutside={() => abortShowingStories()}
             >
+                <img
+                    className={'ml-auto w-4 h-4 mt-4 mr-4'}
+                    src={'assets/images/icons/close_white.svg'}
+                    alt={'close_story'}
+                    onClick={() => abortShowingStories()}
+                />
                 {/*<div className={'flex flex-row w-1/4 m-auto mt-8'}>*/}
                 {/*    {stories.map((storyItemModel, i) =>*/}
                 {/*        <div*/}
@@ -227,7 +233,7 @@ const StoryList: React.FC = () => {
                 {/*    )}*/}
                 {/*</div>*/}
 
-                <div className={'w-1/4 m-auto mt-12 relative'}>
+                <div className={'w-1/4 m-auto mt-4 relative'}>
                     <div className={'flex flex-row w-full m-auto mb-12'}>
                         <div
                             className={'Avatar rounded-full p-2 h-6 w-6'}
