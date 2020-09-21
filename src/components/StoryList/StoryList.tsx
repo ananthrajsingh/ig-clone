@@ -208,7 +208,7 @@ const StoryList: React.FC = () => {
                 {/*</div>*/}
 
                 <div className={'w-1/4 m-auto mt-12 relative'}>
-                    <div className={'flex flex-row w-full m-auto mb-12'}>
+                    <div className={'flex flex-row w-full m-auto mb-12 cursor-pointer'}>
                         <div
                             className={'Avatar rounded-full p-2 h-6 w-6'}
                             // TODO Change placeholder image
