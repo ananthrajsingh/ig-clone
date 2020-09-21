@@ -6,6 +6,7 @@ import Avatar from '../Avatar/Avatar';
 import {Layer} from "grommet/es6";
 import {StoryItemModel} from "../../models/ui/story-item.model";
 import {UserModel} from "../../models/user.model";
+import { useNavigation } from "react-navi";
 import {getDummyStoryItemArray} from "../../mock-generators/story-item.generator";
 // import {getDummyUser} from "../../mock-generators/user.generator";
 import {AvatarProps} from "../Avatar/Avatar";
@@ -14,6 +15,7 @@ import {getDummyStoryAvatars} from "../../mock-generators/story-avatar.generator
 // TODO StoryList should get as props the logged in user for which we are loading the stories
 const StoryList: React.FC = () => {
 
+    let navigator = useNavigation();
     let [storyAvatars, setStoryAvatars] = useState<AvatarProps[] | null>(null)
     let [storyUser, setStoryUser] = useState<UserModel | null>(null)
     let [story, setStory] = useState<StoryItemModel | null>(null)
@@ -208,7 +210,11 @@ const StoryList: React.FC = () => {
                 {/*</div>*/}
 
                 <div className={'w-1/4 m-auto mt-12 relative'}>
-                    <div className={'flex flex-row w-full m-auto mb-12 cursor-pointer'}>
+                    <div
+                        className={'flex flex-row w-full m-auto mb-12 cursor-pointer'}
+                        // TODO Temporary setup, should pass params to profile
+                        onClick={() => navigator.navigate('profile')}
+                    >
                         <div
                             className={'Avatar rounded-full p-2 h-6 w-6'}
                             // TODO Change placeholder image
