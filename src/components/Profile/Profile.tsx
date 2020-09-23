@@ -14,9 +14,11 @@ interface ProfileProps extends GlobalProps {
 
 const Profile: React.FC<ProfileProps> = (props: ProfileProps) => {
     return <div>
-        <div className={'flex flex-row'}>
-        <FeedList/>
+        <div className={'flex flex-row h-screen w-full overflow-hidden items-center children:h-full space-y-10 pt-12 px-8'}>
+        <FeedList
+        />
         <ProfileInfo
+            className={'ml-8'}
             user={props.user}
             postCount={props.postCount}
             followerCount={props.followerCount}
