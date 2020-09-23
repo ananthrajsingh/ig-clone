@@ -3,6 +3,9 @@ import {GlobalProps} from "../app/App";
 import {UserModel} from "../../models/user.model";
 import FeedList from "../FeedList/FeedList";
 import ProfileInfo from "../ProfileInfo/ProfileInfo";
+import {DropButton} from "grommet";
+import {Box, Text, Heading} from "grommet";
+import {Close} from "grommet-icons";
 
 
 interface ProfileProps extends GlobalProps {
@@ -10,9 +13,19 @@ interface ProfileProps extends GlobalProps {
     postCount?: number
     followerCount?: number
     followingCount?: number
+    following: boolean
 }
 
 const Profile: React.FC<ProfileProps> = (props: ProfileProps) => {
+
+    function toggleFollowing() {
+        // TODO Inform backend about the change
+    }
+
+    function getButtonBackground(following: boolean) {
+        if (following) return "bg-gray-normal"
+        return "bg-pink"
+    }
     return <div>
         <div
             className={'flex flex-row h-screen w-full overflow-hidden items-center children:h-full space-y-10 pt-12 px-8'}>
@@ -36,10 +49,29 @@ const Profile: React.FC<ProfileProps> = (props: ProfileProps) => {
                     followingCount={props.followingCount}
                 />
                 <p
-                    className={'mt-4'}
+                    className={'mt-4 mb-4'}
                 >
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
                 </p>
+                {/*<DropButton*/}
+                {/*    primary*/}
+                {/*    label={'Following'}*/}
+                {/*    dropContent={*/}
+                {/*        <Box>*/}
+                {/*            <Text>Content</Text>*/}
+                {/*        </Box>*/}
+                {/*    }*/}
+                {/*>*/}
+                {/*</DropButton>*/}
+
+                <button
+                    className={'h-8 rounded-sm font-bold ' + getButtonBackground(props.following)}
+                    type={'button'}
+                    onClick={() => toggleFollowing()}
+                >
+                    {props.following ? "FOLLOWING" : "FOLLOW"}
+                </button>
+
             </div>
         </div>
     </div>

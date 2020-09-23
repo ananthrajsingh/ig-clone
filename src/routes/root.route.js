@@ -31,6 +31,7 @@ export default compose(
                 postCount={3442}
                 followerCount={404920}
                 followingCount={2}
+                following={true}
             />,
         }),
     })
