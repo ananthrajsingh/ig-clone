@@ -10,8 +10,15 @@ import { PostsManager } from "../../managers/posts.manager";
 import { PostsStore } from "../../store/posts/posts.store";
 import { PostModel } from "../../models/post.model";
 import { LoggedInUserManager } from "../../managers/logged-in-user.manager";
+import ExpandedFeedItem from "../ExpandedFeedItem/ExpandedFeedItem";
+import {If} from "react-extras";
 
 const FeedList: React.FC = () => {
+
+    function onFeedItemClick(post: PostModel) {
+
+    }
+
     function shuffle(a: any[]) {
         if (!a?.length) {
             return a;
@@ -42,9 +49,16 @@ const FeedList: React.FC = () => {
           columnClassName="my-masonry-grid_column">
             {shuffle(feeds)
               ?.map((feed, index) => {
-                  return <FeedItem feedItem={feed} key={index}/>;
+                  return <FeedItem
+                      onClick={(feed) => onFeedItemClick(feed)}
+                      feedItem={feed}
+                      key={index}
+                  />;
               })}
         </Masonry>
+        <If condition={true}>
+            <ExpandedFeedItem/>
+        </If>
     </div>;
 };
 

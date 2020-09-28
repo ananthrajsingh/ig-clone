@@ -242,7 +242,7 @@ const StoryList: React.FC = () => {
                         onClick={() => incrementStory()}
                         className={''}
                         src={story ? story.url : 'assets/images/others/placeholder_2.png'}
-                        alt={"Story"}/>
+                        alt={"story"}/>
 
                 </div>
 

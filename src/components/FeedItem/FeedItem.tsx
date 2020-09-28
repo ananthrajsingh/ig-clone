@@ -12,6 +12,7 @@ import { useObservable } from "rxjs-hooks";
 
 interface FeedItemProps extends GlobalProps {
     feedItem: PostModel
+    onClick: (post: PostModel) => void
 }
 
 
