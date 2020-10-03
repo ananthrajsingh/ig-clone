@@ -9,6 +9,7 @@ import { UserModel } from "../../models/user.model";
 export enum AvatarSize {
     md = 1,
     sm,
+    xxs,
     xs
 }
 
@@ -55,8 +56,11 @@ function getClassBySize(size: AvatarSize | undefined): string {
     else if (size === AvatarSize.sm) {
         return "h-20 w-20 min-w-20 min-h-20";
     }
-    else if (size === AvatarSize.xs) {
+    else if (size === AvatarSize.xxs) {
         return "h-6 w-6 min-w-6 min-h-6";
+    }
+    else if (size === AvatarSize.xs) {
+        return "h-8 w-8 min-w-8 min-h-8";
     }
     return "h-24 w-24";
 }

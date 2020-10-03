@@ -12,6 +12,7 @@ import { PostModel } from "../../models/post.model";
 import { LoggedInUserManager } from "../../managers/logged-in-user.manager";
 import ExpandedFeedItem from "../ExpandedFeedItem/ExpandedFeedItem";
 import {If} from "react-extras";
+import {getRandomPostModel} from "../../mock-generators/feed.generator";
 
 const FeedList: React.FC = () => {
 
@@ -57,7 +58,9 @@ const FeedList: React.FC = () => {
               })}
         </Masonry>
         <If condition={true}>
-            <ExpandedFeedItem/>
+            <ExpandedFeedItem
+                post={getRandomPostModel()}
+            />
         </If>
     </div>;
 };

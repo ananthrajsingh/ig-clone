@@ -27,7 +27,7 @@ const FeedItem: React.FC<FeedItemProps> = (props: FeedItemProps) => {
         <img src={props.feedItem.url} className={"feed-image"} alt={props.feedItem.caption}/>
         <span className={"w-full flex flex-row justify-between items-between pt-2"}>
               <span className={"flex flex-row justify-start items-center space-x-2"}>
-                  <Avatar user={props?.feedItem?.creator} showRing={true} size={AvatarSize.xs}></Avatar>
+                  <Avatar user={props?.feedItem?.creator} showRing={true} size={AvatarSize.xxs}></Avatar>
                   <p className={"text-sm"}>{props.feedItem.creator?.username}</p>
               </span>
               <span className={"flex flex-row justify-start items-center space-x-1"}>

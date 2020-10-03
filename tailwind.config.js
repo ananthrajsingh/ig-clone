@@ -20,7 +20,8 @@ module.exports = {
                 dark: '#282a34',
                 normal: '#3c3f51',
                 'normal-contrast': '#484b5b',
-                text: '#718096'
+                text: '#718096',
+                light: '#C4C4C4'
             },
             pink: '#e2336b',
             pink_yellow: '#F77E56',
