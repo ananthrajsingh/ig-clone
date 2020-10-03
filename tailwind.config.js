@@ -27,6 +27,7 @@ module.exports = {
             yellow: '#fcac46'
         },
         spacing: {
+            'per25': '25%',
             px: '1px',
             '0': '0',
             '1/2': '0.125rem',
@@ -398,6 +399,8 @@ module.exports = {
             '3/10': '30%',
             full: '100%',
             screen: '100vw',
+            '50-screen': '50vh',
+            '70-screen': '70vh',
         },
         objectPosition: {
             bottom: 'bottom',

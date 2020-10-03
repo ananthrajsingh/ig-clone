@@ -13,7 +13,7 @@ const ExpandedFeedItem: React.FC<ExpandedFeedItemProps> = (props: ExpandedFeedIt
         <Layer
             className={'flex flex-row justify-center w-full h-full bg-black absolute bg-opacity-96'}>
             <img
-                className={'w-1/4 mt-auto mb-auto absolute mr-0 relative rounded-xxl z-50'}
+                className={'h-70-screen mt-auto mb-auto absolute mr-0 relative rounded-xxl z-50'}
                 src={"assets/images/others/square_placeholder.png"}
                 alt={props.post?.id + ""}
             />
@@ -23,7 +23,7 @@ const ExpandedFeedItem: React.FC<ExpandedFeedItemProps> = (props: ExpandedFeedIt
 
             {/*</Layer>*/}
             <div
-                className={'w-1/4 h-full bg-gray-normal relative rounded-xxl bg-opacity-100'}
+                className={'w-1/4 h-70-screen pb-per25 mt-auto mb-auto ml-4 bg-gray-normal relative rounded-xxl bg-opacity-100'}
             >
 
             </div>
