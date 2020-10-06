@@ -3,6 +3,10 @@ import {GlobalProps} from "../app/App";
 import {Layer} from "grommet";
 import {PostModel} from "../../models/post.model";
 import Avatar, {AvatarSize} from "../Avatar/Avatar";
+import {UserModel} from "../../models/user.model";
+import {useObservable} from "rxjs-hooks";
+import {LoggedInUserManager} from "../../managers/logged-in-user.manager";
+import {LoggedInUserStore} from "../../store/logged-in-user/logged-in-user.store";
 
 interface ExpandedFeedItemProps extends GlobalProps {
     // TODO Should not be optional
@@ -10,6 +14,12 @@ interface ExpandedFeedItemProps extends GlobalProps {
 }
 
 const ExpandedFeedItem: React.FC<ExpandedFeedItemProps> = (props: ExpandedFeedItemProps) => {
+
+    const loggedInUserManager = new LoggedInUserManager(LoggedInUserStore.getInstance());
+    const loggedInUser: UserModel | null = useObservable(() => {
+        return loggedInUserManager.getLoggedInUser();
+    });
+
     return <div>
         <Layer
             className={'flex flex-row justify-center w-full h-full bg-black absolute bg-opacity-96'}>
@@ -39,10 +49,29 @@ const ExpandedFeedItem: React.FC<ExpandedFeedItemProps> = (props: ExpandedFeedIt
                 </div>
 
                 <p
-                    className={'text-base text-gray-light mx-6 mt-1'}
+                    className={'text-base text-gray-light mx-6 mt-2'}
                 >
                     {props.post?.caption}
                 </p>
+
+                <p
+                    className={'text-xs text-gray-light mx-6'}
+                >
+                    4d
+                </p>
+                <div
+                    className={'flex flex-row ml-6 mt-2'}
+                >
+                    {props.post?.likes?.find(v => v.user_id === loggedInUser?.id) ?
+                        <img className={"h-5 w-5 mr-1 mt-1"} src={"./assets/images/icons/like_white_small.svg"}/> :
+                        <img className={"h-5 w-5 mr-1 mt-1"} src={"./assets/images/icons/heart_red.png"}/>}
+                    <img className={"h-5 w-5 mr-1 mt-1"} src={"./assets/images/icons/comment_small.svg"}/>
+                    <img className={"h-6 w-6"} src={"./assets/images/icons/dm_small.svg"}/>
+                </div>
+
+                <div
+                    className={'h-px mt-2 mx-6 bg-black'}
+                />
             </div>
         </Layer>
     </div>
