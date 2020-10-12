@@ -9,7 +9,7 @@ export function fetchUserFeed(userId: number) {
       .pipe(map(v => v.json()))
       .subscribe(async (val) => {
             const feed: { [userId: number]: PostModel[] } = (await val)?.data; // set in store after getting response
-            console.log("FEEED", feed);
+            console.log("FEED", feed);
             for (const uId in feed) {
                 PostsStore.getInstance()
                   .add(feed[uId]);
