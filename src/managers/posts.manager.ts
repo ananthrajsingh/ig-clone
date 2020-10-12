@@ -38,6 +38,11 @@ export class PostsManager {
     }
 
 
+    getPost(postId: number, force = false): Observable<PostModel | undefined> {
+        return postsQuery.selectEntity(postId);
+    }
+
+
     getFeedOfUser(userId = 1, force = false): Observable<PostModel[]> {
         const $userFeed = new Subject<PostModel[]>();
         const usersManager = new UserManager(UsersStore.getInstance());

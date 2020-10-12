@@ -11,7 +11,8 @@ import { useObservable } from "rxjs-hooks";
 
 
 interface FeedItemProps extends GlobalProps {
-    feedItem: PostModel
+    feedItem: PostModel,
+    onClick: (postId: any) => any
 }
 
 
@@ -21,8 +22,10 @@ const FeedItem: React.FC<FeedItemProps> = (props: FeedItemProps) => {
     const loggedInUser: UserModel | null = useObservable(() => {
         return loggedInUserManager.getLoggedInUser();
     });
-    return <div
-      className={"w-100 flex flex-col justify-start items-center feed-item-wrapper space-x-5" + props.className}>
+    return <div onClick={() => {
+        props.onClick(props.feedItem.id);
+    }}
+                className={"w-100 flex flex-col justify-start items-center feed-item-wrapper cursor-pointer space-x-5" + props.className}>
         <img src={props.feedItem.url} className={"feed-image"} alt={props.feedItem.caption}/>
         <span className={"w-full flex flex-row justify-between items-between pt-2"}>
               <span className={"flex flex-row justify-start items-center space-x-2"}>

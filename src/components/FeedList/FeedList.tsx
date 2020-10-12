@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import "./FeedList.scss";
 import FeedItem from "../FeedItem/FeedItem";
 import Masonry from "react-masonry-css";
@@ -10,6 +10,8 @@ import { PostsManager } from "../../managers/posts.manager";
 import { PostsStore } from "../../store/posts/posts.store";
 import { PostModel } from "../../models/post.model";
 import { LoggedInUserManager } from "../../managers/logged-in-user.manager";
+import { Layer } from "grommet";
+import FeedItemDetail from "../FeedItemDetail/FeedItemDetail";
 
 const FeedList: React.FC = () => {
     function shuffle(a: any[]) {
@@ -24,16 +26,16 @@ const FeedList: React.FC = () => {
     }
 
 
+    const [feedDetail, setFeedDetail] = useState<number>(0);
     const loggedInUserManager = new LoggedInUserManager(LoggedInUserStore.getInstance());
     const postsManager = new PostsManager(PostsStore.getInstance());
+
     const feeds: PostModel[] = useObservable(() => {
         return loggedInUserManager.getLoggedInUser()
           .pipe(switchMap((loggedInUser: UserModel) => {
               return postsManager.getFeedOfUser(loggedInUser.id);
           }));
     }) as PostModel[];
-    useEffect(() => {
-    }, [feeds]);
 
     return <div className="feed-list w-100 overflow-y-auto">
         <Masonry
@@ -42,9 +44,15 @@ const FeedList: React.FC = () => {
           columnClassName="my-masonry-grid_column">
             {shuffle(feeds)
               ?.map((feed, index) => {
-                  return <FeedItem feedItem={feed} key={index}/>;
+                  return <FeedItem feedItem={feed} key={index} onClick={setFeedDetail}/>;
               })}
         </Masonry>
+        {feedDetail ? <Layer
+          onEsc={() => setFeedDetail(0)}
+          onClickOutside={() => setFeedDetail(0)}
+        >
+            <FeedItemDetail postId={feedDetail}/>
+        </Layer> : <></>}
     </div>;
 };
 
