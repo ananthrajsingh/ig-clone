@@ -7,10 +7,14 @@ import {UserModel} from "../../models/user.model";
 import {useObservable} from "rxjs-hooks";
 import {LoggedInUserManager} from "../../managers/logged-in-user.manager";
 import {LoggedInUserStore} from "../../store/logged-in-user/logged-in-user.store";
+import Comment from "../Comment/Comment";
+import {CommentModel} from "../../models/comment.model";
+import {getDummyUser} from "../../mock-generators/user.generator";
 
 interface ExpandedFeedItemProps extends GlobalProps {
     // TODO Should not be optional
     post?: PostModel
+    comments?: CommentModel[]
 }
 
 const ExpandedFeedItem: React.FC<ExpandedFeedItemProps> = (props: ExpandedFeedItemProps) => {
@@ -72,6 +76,13 @@ const ExpandedFeedItem: React.FC<ExpandedFeedItemProps> = (props: ExpandedFeedIt
                 <div
                     className={'h-px mt-2 mx-6 bg-black'}
                 />
+
+                <div>
+                    <Comment
+                        // TODO Fetch user object from
+                        user={getDummyUser()}
+                    />
+                </div>
             </div>
         </Layer>
     </div>
