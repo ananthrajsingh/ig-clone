@@ -77,8 +77,11 @@ const ExpandedFeedItem: React.FC<ExpandedFeedItemProps> = (props: ExpandedFeedIt
                     className={'h-px mt-2 mx-6 bg-black'}
                 />
 
-                <div>
+                <div
+                    className={"mr-4 ml-4"}
+                >
                     <Comment
+
                         // TODO Fetch user object from
                         user={getDummyUser()}
                     />

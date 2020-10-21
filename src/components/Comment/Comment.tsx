@@ -20,14 +20,17 @@ const Comment: React.FC<CommentProps> = (props: CommentProps) => {
             showRing={true}/>
 
             <div
-                className={"flex flex-row"}
+                className={"flex flex-row flex-grow-3"}
             >
-                <p
-                    className={"text-base text-white font-bold align-start mt-1 ml-2"}
-                >
-                    john_doe
+                <p className={"text-sm text-gray-light align-start mt-1 ml-4 mr-2"}>
+                    <span className="text-sm text-white font-bold">john_doe</span> Nice photo there, I was also thinking of coming along
                 </p>
             </div>
+
+        <img
+            className={""}
+            src={"assets/images/icons/comment_like_red.svg"}
+        />
     </div>
 }
 
