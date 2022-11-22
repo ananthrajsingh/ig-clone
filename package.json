@@ -29,7 +29,7 @@
     "react-lazyload": "^3.0.0",
     "react-masonry-css": "^1.0.14",
     "react-navi": "^0.14.4",
-    "react-scripts": "3.4.1",
+    "react-scripts": "5.0.1",
     "rxjs": "^6.6.3",
     "rxjs-hooks": "^0.6.2",
     "styled-components": "^5.1.1",
